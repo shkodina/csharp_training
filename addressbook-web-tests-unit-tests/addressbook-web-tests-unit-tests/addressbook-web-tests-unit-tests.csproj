@@ -60,8 +60,12 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="BaseData.cs" />
+    <Compile Include="CommonActions.cs" />
+    <Compile Include="ContactCreationTest.cs" />
+    <Compile Include="ContactData.cs" />
     <Compile Include="GroupData.cs" />
-    <Compile Include="UnitTest1.cs" />
+    <Compile Include="LoginData.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="GroupCreationTests.cs" />
   </ItemGroup>
