@@ -8,9 +8,9 @@ namespace addressbook_web_tests_unit_tests
 {
     class BaseData
     {
-        private string baaseURL = "http://localhost/addressbook/";
+        private string baseURL = "http://localhost/addressbook/";
 
-        public string BaaseURL { get => baaseURL; set => baaseURL = value; }
+        public string BaseURL { get => baseURL; set => baseURL = value; }
     }
 
 }

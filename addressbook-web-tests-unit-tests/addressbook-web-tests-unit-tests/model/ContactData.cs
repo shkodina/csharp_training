@@ -6,10 +6,10 @@ using System.Threading.Tasks;
 
 namespace addressbook_web_tests_unit_tests
 {
-    class ContactData
+    public class ContactData
     {
-        private string name = "DefaultName";
-        private string surname = "DefaultSurName";
+        private string name = null;
+        private string surname = null;
         public ContactData() { }
 
         public ContactData(string name, string surname)

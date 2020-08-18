@@ -6,14 +6,15 @@ using System.Threading.Tasks;
 
 namespace addressbook_web_tests_unit_tests
 {
-    class LoginData
+    public class LoginData
     {
-        private string name = "admin";
-        private string pass = "secret";
+        private string name;
+        private string pass;
 
         public LoginData()
         {
-
+            name = "admin";
+            pass = "secret";
         }
 
         public string Name { get => name; set => name = value; }
