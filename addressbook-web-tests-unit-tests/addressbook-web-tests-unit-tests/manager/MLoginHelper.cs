@@ -32,9 +32,13 @@ namespace addressbook_web_tests_unit_tests
         }
 
  
-        public void Logout()
+        public MLoginHelper Logout()
         {
-            driver.FindElement(By.LinkText("Logout")).Click();
+            if (IsLogin())
+            {
+                driver.FindElement(By.LinkText("Logout")).Click();
+            }
+            return this;
         }
 
     }

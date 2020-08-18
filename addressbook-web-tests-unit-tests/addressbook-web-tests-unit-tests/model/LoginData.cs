@@ -17,6 +17,12 @@ namespace addressbook_web_tests_unit_tests
             pass = "secret";
         }
 
+        public LoginData(string name, string pass)
+        {
+            this.name = name;
+            this.pass = pass;
+        }
+
         public string Name { get => name; set => name = value; }
         public string Pass { get => pass; set => pass = value; }
     }

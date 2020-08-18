@@ -53,7 +53,16 @@ namespace addressbook_web_tests_unit_tests
 
         public bool IsLogin()
         {
-            return IsElementPresent(By.LinkText("Logout"));
+            return IsElementPresent(By.Name("logout"));
+        }
+
+        public bool IsLogin(LoginData correctLogin)
+        {
+            return (IsLogin())
+                    &&
+                    driver.FindElement(By.Name("logout")).FindElement(By.TagName("b")).Text 
+                        == 
+                        "(" + correctLogin.Name + ")";
         }
 
         public bool IsElementPresent(By by)

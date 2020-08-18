@@ -75,6 +75,7 @@
     <Compile Include="model\LoginData.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="tests\GroupsTests.cs" />
+    <Compile Include="tests\LoginTests.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="ClassDiagram1.cd" />
