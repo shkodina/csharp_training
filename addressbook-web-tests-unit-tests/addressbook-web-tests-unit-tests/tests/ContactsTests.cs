@@ -5,10 +5,7 @@ namespace addressbook_web_tests_unit_tests
     [TestFixture]
     public class ContactsTests : BaseTests
     {
-
-
-        [SetUp]
-        public void SetupTest()
+        public ContactsTests()
         {
             app.mLoginHelper.Login(new LoginData());
         }
