@@ -3,7 +3,7 @@
 namespace addressbook_web_tests_unit_tests
 {
     [TestFixture]
-    public class ContactsTests : BaseTests
+    public class ContactsTests : BaseTestsAuth
     {
 
         [Test]

@@ -51,9 +51,28 @@ namespace addressbook_web_tests_unit_tests
             return this;
         }
 
-        public void OpenHomePage(string URL)
+        public bool IsLogin()
+        {
+            return IsElementPresent(By.LinkText("Logout"));
+        }
+
+        public bool IsElementPresent(By by)
+        {
+            try
+            {
+                driver.FindElement(by);
+                return true;
+            }
+            catch (NoSuchElementException)
+            {
+                return false;
+            }
+        }
+
+        public MBaseHelper OpenHomePage(string URL)
         {
             driver.Navigate().GoToUrl(URL);
+            return this;
         }
 
         public void GotoHomePage()
