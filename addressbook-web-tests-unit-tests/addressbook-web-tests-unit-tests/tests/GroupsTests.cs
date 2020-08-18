@@ -38,9 +38,9 @@ namespace addressbook_web_tests_unit_tests
         public void GroupEditTest()
         {
 
-            GroupData group = new GroupData("group1edited");
-            group.Footer = "gr1 edited footer";
-            group.Header = "gr1 edited fheader";
+            GroupData group = new GroupData("group1edited" + GenNewSuffixByCurTimeStamp());
+            group.Footer = "gr1 edited footer" + GenNewSuffixByCurTimeStamp();
+            group.Header = "gr1 edited fheader" + GenNewSuffixByCurTimeStamp();
 
             app.mGroupsHelper
                 .GoToGroups()

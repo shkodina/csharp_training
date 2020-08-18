@@ -8,6 +8,7 @@ using OpenQA.Selenium;
 using OpenQA.Selenium.Firefox;
 using OpenQA.Selenium.Chrome;
 using OpenQA.Selenium.Support.UI;
+using System.Threading;
 
 namespace addressbook_web_tests_unit_tests
 {
@@ -18,7 +19,8 @@ namespace addressbook_web_tests_unit_tests
         public MGroupsHelper mGroupsHelper;
         public MContactsHelper mContactsHelper;
         public MNavyHelper mNavyHelper;
-        private static AppManager instance;
+
+        private static ThreadLocal<AppManager> instance = new ThreadLocal<AppManager>();
 
         private AppManager()
         {
@@ -32,12 +34,12 @@ namespace addressbook_web_tests_unit_tests
 
         public static AppManager GetInstance()
         {
-            if (instance == null)
+            if (!instance.IsValueCreated)
             {
-                instance = new AppManager();
+                instance.Value = new AppManager();
             }
             
-            return instance;
+            return instance.Value;
         }
 
         ~AppManager()

@@ -23,7 +23,9 @@ namespace addressbook_web_tests_unit_tests
         [Test]
         public void ContactEditTest()
         {
-            ContactData cd = new ContactData("AlexEdit", "PiperEdit");
+            ContactData cd = 
+                new ContactData("AlexEdit " + GenNewSuffixByCurTimeStamp()
+                                , "PiperEdit" + GenNewSuffixByCurTimeStamp());
 
             app.mContactsHelper
                 .GoToContacts()

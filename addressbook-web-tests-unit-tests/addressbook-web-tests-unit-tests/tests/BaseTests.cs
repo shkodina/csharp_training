@@ -23,5 +23,10 @@ namespace addressbook_web_tests_unit_tests
         {
             app = AppManager.GetInstance();           
         }
+
+        protected string GenNewSuffixByCurTimeStamp()
+        {
+            return System.DateTime.Now.ToString();
+        }
     }
 }
