@@ -16,7 +16,7 @@ namespace addressbook_web_tests_unit_tests
         [OneTimeSetUpAttribute]
         public void InitManager()
         {
-
+            AppManager.GetInstance().mLoginHelper.Login(new LoginData());
         }
 
         [OneTimeTearDownAttribute]
@@ -25,13 +25,8 @@ namespace addressbook_web_tests_unit_tests
 
         }
 
-        public static AppManager GetApp()
+        public AppManager GetApp()
         {
-            if (app == null)
-            {
-                app = new AppManager();
-                app.mLoginHelper.Login(new LoginData());
-            }
             return app;
         }
     }

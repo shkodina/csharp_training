@@ -21,14 +21,7 @@ namespace addressbook_web_tests_unit_tests
         [SetUp]
         public void SetupTest()
         {
-            app = TestSuiteFixture.GetApp();
-            
-        }
-
-        [TearDown]
-        public void TearDownTest()
-        {
-            app.Stop();
+            app = AppManager.GetInstance();           
         }
     }
 }

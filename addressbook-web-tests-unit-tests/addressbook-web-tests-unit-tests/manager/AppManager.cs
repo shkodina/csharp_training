@@ -18,8 +18,9 @@ namespace addressbook_web_tests_unit_tests
         public MGroupsHelper mGroupsHelper;
         public MContactsHelper mContactsHelper;
         public MNavyHelper mNavyHelper;
+        private static AppManager instance;
 
-        public AppManager()
+        private AppManager()
         {
             driver = new ChromeDriver();
 
@@ -29,9 +30,14 @@ namespace addressbook_web_tests_unit_tests
             mNavyHelper = new MNavyHelper(driver, this);
         }
 
-        public void Stop()
+        public static AppManager GetInstance()
         {
-            //driver.Quit();
+            if (instance == null)
+            {
+                instance = new AppManager();
+            }
+            
+            return instance;
         }
 
         ~AppManager()
