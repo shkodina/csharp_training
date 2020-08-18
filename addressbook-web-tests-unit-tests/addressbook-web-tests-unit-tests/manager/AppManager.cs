@@ -29,6 +29,11 @@ namespace addressbook_web_tests_unit_tests
             mNavyHelper = new MNavyHelper(driver, this);
         }
 
+        public void Stop()
+        {
+            //driver.Quit();
+        }
+
         ~AppManager()
         {
             driver.Quit();

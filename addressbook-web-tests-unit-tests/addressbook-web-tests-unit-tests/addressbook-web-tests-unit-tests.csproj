@@ -62,6 +62,7 @@
   <ItemGroup>
     <Compile Include="manager\MBaseHelper.cs" />
     <Compile Include="manager\MNavyHelper.cs" />
+    <Compile Include="manager\TestSuiteFixture.cs" />
     <Compile Include="model\BaseData.cs" />
     <Compile Include="manager\AppManager.cs" />
     <Compile Include="manager\MContactsHelper.cs" />

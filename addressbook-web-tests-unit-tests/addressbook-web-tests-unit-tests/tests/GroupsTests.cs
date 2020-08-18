@@ -5,11 +5,7 @@ namespace addressbook_web_tests_unit_tests
     [TestFixture]
     public class GroupsTests : BaseTests
     {
-        public GroupsTests()
-        {
-            app.mLoginHelper.Login(new LoginData());
-        }
-    
+   
         [Test]
         public void GroupCreationTest()
         {

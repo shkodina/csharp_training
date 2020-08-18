@@ -13,13 +13,22 @@ using addressbook_web_tests_unit_tests;
 
 namespace addressbook_web_tests_unit_tests
 {
+    [TestFixture]
     public class BaseTests
     {
         protected AppManager app;
 
-        public BaseTests()
+        [SetUp]
+        public void SetupTest()
         {
-            app = new AppManager();
+            app = TestSuiteFixture.GetApp();
+            
+        }
+
+        [TearDown]
+        public void TearDownTest()
+        {
+            app.Stop();
         }
     }
 }
