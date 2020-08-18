@@ -68,12 +68,12 @@
     <Compile Include="manager\MGroupsHelper.cs" />
     <Compile Include="manager\MLoginHelper.cs" />
     <Compile Include="tests\BaseTests.cs" />
-    <Compile Include="tests\ContactCreationTest.cs" />
+    <Compile Include="tests\ContactsTests.cs" />
     <Compile Include="model\ContactData.cs" />
     <Compile Include="model\GroupData.cs" />
     <Compile Include="model\LoginData.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="tests\GroupCreationTests.cs" />
+    <Compile Include="tests\GroupsTests.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />

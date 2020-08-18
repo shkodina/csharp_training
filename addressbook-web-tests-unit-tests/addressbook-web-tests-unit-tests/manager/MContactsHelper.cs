@@ -33,5 +33,38 @@ namespace addressbook_web_tests_unit_tests
             this.AppManager.mNavyHelper.GoToByName("add new");
             return this;
         }
+
+        public MContactsHelper SubmitContactUpdate()
+        {
+            this.SubmitByClick("update");
+            return this;
+        }
+
+        public MContactsHelper InitEditContact(int v)
+        {
+            v = v + 2;
+            driver.FindElement(By.XPath("//table[@id='maintable']/tbody/tr[" + v + "]//img[@alt='Edit']")).Click();
+            return this;
+        }
+
+        public MContactsHelper SubmitDeleteContact()
+        {
+            driver.FindElement(By.XPath("//input[@value='Delete']")).Click();
+            //driver.SwitchTo().Alert().Accept();
+
+            IAlert alert = driver.SwitchTo().Alert();
+            string alertText = alert.Text;
+            alert.Accept();
+            //alert.Dismiss();
+
+            return this;
+        }
+
+        public MContactsHelper SelectContact(int v)
+        {
+            v = v + 2;
+            driver.FindElement(By.XPath("//table[@id='maintable']/tbody/tr[" + v + "]/td/input")).Click();
+            return this;
+        }
     }
 }

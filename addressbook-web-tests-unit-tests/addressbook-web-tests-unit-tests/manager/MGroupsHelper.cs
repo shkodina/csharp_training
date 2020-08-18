@@ -1,4 +1,5 @@
-﻿using OpenQA.Selenium;
+﻿using System;
+using OpenQA.Selenium;
 
 namespace addressbook_web_tests_unit_tests
 {
@@ -31,6 +32,30 @@ namespace addressbook_web_tests_unit_tests
         public MGroupsHelper SubmitGroupCreation()
         {
             this.SubmitByClick("submit");
+            return this;
+        }
+
+        public MGroupsHelper SubmitDeleteGroup()
+        {
+            driver.FindElement(By.XPath("(//input[@name='delete'])[2]")).Click();
+            return this;
+        }
+
+        public MGroupsHelper SelectGroup(int v)
+        {
+            driver.FindElement(By.XPath("(//input[@name='selected[]'])[" + v + "]")).Click();
+            return this;
+        }
+
+        public MGroupsHelper SubmitEditGroup()
+        {
+            this.SubmitByClick("edit");
+            return this;
+        }
+
+        public MGroupsHelper SubmitUpdateGroup()
+        {
+            this.SubmitByClick("update");
             return this;
         }
     }
