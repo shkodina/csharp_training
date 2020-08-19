@@ -36,6 +36,14 @@ namespace addressbook_web_tests_unit_tests
         }
 
         [Test]
+        public void SafetyContactEditTest()
+        {
+            if (!app.mContactsHelper.IsContactExist())
+                ContactCreationTest();
+            ContactEditTest();
+        }
+
+        [Test]
         public void ContactRemovalTest()
         {
             app.mContactsHelper
@@ -43,6 +51,15 @@ namespace addressbook_web_tests_unit_tests
                 .SelectContact(0)
                 .SubmitDeleteContact()
                 .GoToContacts();
+        }
+
+        [Test]
+        public void SafetyContactRemovalTest()
+        {
+            if (!app.mContactsHelper.IsContactExist())
+                ContactCreationTest();
+
+            ContactRemovalTest();
         }
     }
 }

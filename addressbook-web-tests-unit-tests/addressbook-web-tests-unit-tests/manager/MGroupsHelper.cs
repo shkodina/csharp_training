@@ -11,6 +11,7 @@ namespace addressbook_web_tests_unit_tests
 
         public MGroupsHelper GoToGroups()
         {
+
             this.AppManager.mNavyHelper.GoToByName("groups");
             return this;
         }
@@ -35,13 +36,20 @@ namespace addressbook_web_tests_unit_tests
             return this;
         }
 
+        public bool IsGroupExists()
+        {
+            GoToGroups();
+            //return IsElementPresent(By.Name("selected[]"));
+            return IsElementPresent(By.XPath("//span[@class='group']"));
+        }
+
         public MGroupsHelper SubmitDeleteGroup()
         {
             driver.FindElement(By.XPath("(//input[@name='delete'])[2]")).Click();
             return this;
         }
 
-        public MGroupsHelper SelectGroup(int v)
+         public MGroupsHelper SelectGroup(int v)
         {
             driver.FindElement(By.XPath("(//input[@name='selected[]'])[" + v + "]")).Click();
             return this;

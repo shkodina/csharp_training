@@ -18,7 +18,7 @@ namespace addressbook_web_tests_unit_tests
         public MContactsHelper FillNewContactFields(ContactData cd)
         {
             FillInputByName("firstname", cd.Name);
-            FillInputByName("middlename", cd.Surname);
+            FillInputByName("lastname", cd.Surname);
             return this;
         }
 
@@ -58,6 +58,12 @@ namespace addressbook_web_tests_unit_tests
             //alert.Dismiss();
 
             return this;
+        }
+
+        public bool IsContactExist()
+        {
+            GoToContacts();
+            return IsElementPresent(By.XPath("//table[@id='maintable']//img[@alt='Edit']"));
         }
 
         public MContactsHelper SelectContact(int v)
