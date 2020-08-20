@@ -23,6 +23,9 @@ namespace addressbook_web_tests_unit_tests
         [Test]
         public void ContactEditTest()
         {
+            if (!app.mContactsHelper.IsContactExist())
+                ContactCreationTest();
+
             ContactData cd = 
                 new ContactData("AlexEdit " + GenNewSuffixByCurTimeStamp()
                                 , "PiperEdit" + GenNewSuffixByCurTimeStamp());
@@ -36,30 +39,16 @@ namespace addressbook_web_tests_unit_tests
         }
 
         [Test]
-        public void SafetyContactEditTest()
+        public void ContactRemovalTest()
         {
             if (!app.mContactsHelper.IsContactExist())
                 ContactCreationTest();
-            ContactEditTest();
-        }
 
-        [Test]
-        public void ContactRemovalTest()
-        {
             app.mContactsHelper
                 .GoToContacts()
                 .SelectContact(0)
                 .SubmitDeleteContact()
                 .GoToContacts();
-        }
-
-        [Test]
-        public void SafetyContactRemovalTest()
-        {
-            if (!app.mContactsHelper.IsContactExist())
-                ContactCreationTest();
-
-            ContactRemovalTest();
         }
     }
 }

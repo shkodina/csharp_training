@@ -5,7 +5,6 @@ namespace addressbook_web_tests_unit_tests
     [TestFixture]
     public class GroupsTests : BaseTestsAuth
     {
-   
         [Test]
         public void GroupCreationTest()
         {
@@ -27,6 +26,9 @@ namespace addressbook_web_tests_unit_tests
         [Test]
         public void GroupRemovalTest()
         {
+            if (!app.mGroupsHelper.IsGroupExists())
+                GroupCreationTest();
+
             app.mGroupsHelper
                 .GoToGroups()
                 .SelectGroup(1)
@@ -35,17 +37,10 @@ namespace addressbook_web_tests_unit_tests
         }
 
         [Test]
-        public void SafetyGroupRemovalTest()
+        public void GroupEditTest()
         {
             if (!app.mGroupsHelper.IsGroupExists())
                 GroupCreationTest();
-
-            GroupRemovalTest();
-        }
-
-        [Test]
-        public void GroupEditTest()
-        {
 
             GroupData group = new GroupData("group1 edited " + GenNewSuffixByCurTimeStamp());
             group.Footer = "gr1 edited footer " + GenNewSuffixByCurTimeStamp();
@@ -58,15 +53,6 @@ namespace addressbook_web_tests_unit_tests
                 .FillNewGroupFields(group)
                 .SubmitUpdateGroup()
                 .GoToGroups();
-        }
-
-        [Test]
-        public void SafetyGroupEditTest()
-        {
-            if (!app.mGroupsHelper.IsGroupExists())
-                GroupCreationTest();
-
-            GroupEditTest();
         }
     }
 }
