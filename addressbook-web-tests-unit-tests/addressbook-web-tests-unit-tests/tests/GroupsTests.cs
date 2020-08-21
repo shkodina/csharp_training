@@ -35,25 +35,38 @@ namespace addressbook_web_tests_unit_tests
         [Test]
         public void GroupRemovalTest()
         {
-            if (!app.mGroupsHelper.IsGroupExists())
-                GroupCreationTest();
+            int index_of_changed_group = 0;
 
-            app.mGroupsHelper
-                .GoToGroups()
-                .SelectGroup(0)
-                .SubmitDeleteGroup()
-                .GoToGroups();
-        }
-
-        [Test]
-        public void GroupEditTest()
-        {
             if (!app.mGroupsHelper.IsGroupExists())
                 GroupCreationTest();
 
             List<GroupData> oldGroups = app.mGroupsHelper.GetGroupsList();
 
+            app.mGroupsHelper
+                .GoToGroups()
+                .SelectGroup(index_of_changed_group)
+                .SubmitDeleteGroup()
+                .GoToGroups();
+
+            oldGroups.RemoveAt(index_of_changed_group);
+
+            List<GroupData> newGroups = app.mGroupsHelper.GetGroupsList();
+
+            oldGroups.Sort();
+            newGroups.Sort();
+
+            Assert.AreEqual(oldGroups, newGroups);
+        }
+
+        [Test]
+        public void GroupEditTest()
+        {
             int index_of_changed_group = 0;
+
+            if (!app.mGroupsHelper.IsGroupExists())
+                GroupCreationTest();
+
+            List<GroupData> oldGroups = app.mGroupsHelper.GetGroupsList();
 
             GroupData group = new GroupData("group1 edited " + GenNewSuffixByCurTimeStamp());
             group.Footer = "gr1 edited footer " + GenNewSuffixByCurTimeStamp();
