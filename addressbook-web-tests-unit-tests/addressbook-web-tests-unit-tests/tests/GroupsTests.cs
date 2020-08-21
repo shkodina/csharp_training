@@ -1,4 +1,5 @@
-﻿using NUnit.Framework;
+﻿using System.Collections.Generic;
+using NUnit.Framework;
 
 namespace addressbook_web_tests_unit_tests
 {
@@ -8,6 +9,7 @@ namespace addressbook_web_tests_unit_tests
         [Test]
         public void GroupCreationTest()
         {
+            List<GroupData> oldGroups = app.mGroupsHelper.GetGroupsList();
 
             GroupData group = new GroupData("group1");
             group.Footer = "gr1 footer";
@@ -19,8 +21,15 @@ namespace addressbook_web_tests_unit_tests
                 .FillNewGroupFields(group)
                 .SubmitGroupCreation()
                 .GoToGroups();
- 
-            //Thread.Sleep(2000);
+
+            oldGroups.Add(group);
+
+            List<GroupData> newGroups = app.mGroupsHelper.GetGroupsList();
+
+            oldGroups.Sort();
+            newGroups.Sort();
+
+            Assert.AreEqual(oldGroups, newGroups);
         }
 
         [Test]
@@ -31,7 +40,7 @@ namespace addressbook_web_tests_unit_tests
 
             app.mGroupsHelper
                 .GoToGroups()
-                .SelectGroup(1)
+                .SelectGroup(0)
                 .SubmitDeleteGroup()
                 .GoToGroups();
         }
@@ -42,17 +51,30 @@ namespace addressbook_web_tests_unit_tests
             if (!app.mGroupsHelper.IsGroupExists())
                 GroupCreationTest();
 
+            List<GroupData> oldGroups = app.mGroupsHelper.GetGroupsList();
+
+            int index_of_changed_group = 0;
+
             GroupData group = new GroupData("group1 edited " + GenNewSuffixByCurTimeStamp());
             group.Footer = "gr1 edited footer " + GenNewSuffixByCurTimeStamp();
             group.Header = "gr1 edited fheader " + GenNewSuffixByCurTimeStamp();
 
             app.mGroupsHelper
                 .GoToGroups()
-                .SelectGroup(1)
+                .SelectGroup(index_of_changed_group)
                 .SubmitEditGroup()
                 .FillNewGroupFields(group)
                 .SubmitUpdateGroup()
                 .GoToGroups();
+
+            oldGroups[index_of_changed_group] = group;
+
+            List<GroupData> newGroups = app.mGroupsHelper.GetGroupsList();
+
+            oldGroups.Sort();
+            newGroups.Sort();
+
+            Assert.AreEqual(oldGroups, newGroups);
         }
     }
 }
