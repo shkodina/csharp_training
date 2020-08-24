@@ -10,6 +10,7 @@ namespace addressbook_web_tests_unit_tests
     {
         private string name = null;
         private string surname = null;
+        private string id = null;
         public ContactData() { }
 
         public ContactData(string name, string surname)
@@ -20,6 +21,7 @@ namespace addressbook_web_tests_unit_tests
 
         public string Name { get => name; set => name = value; }
         public string Surname { get => surname; set => surname = value; }
+        public string Id { get => id; set => id = value; }
 
         public int CompareTo(ContactData other)
         {
@@ -47,5 +49,9 @@ namespace addressbook_web_tests_unit_tests
             return "Surname " + Surname + " Name: " + Name;
         }
 
+        public override int GetHashCode()
+        {
+            return Name.GetHashCode() + Surname.GetHashCode();
+        }
     }
 }

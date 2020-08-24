@@ -26,6 +26,7 @@ namespace addressbook_web_tests_unit_tests
         public MContactsHelper SubmitContactCreation()
         {
             driver.FindElement(By.XPath("(//input[@name='submit'])[2]")).Click();
+            contactsListHash = null;
             return this;
         }
 
@@ -38,6 +39,7 @@ namespace addressbook_web_tests_unit_tests
         public MContactsHelper SubmitContactUpdate()
         {
             this.SubmitByClick("update");
+            contactsListHash = null;
             return this;
         }
 
@@ -58,6 +60,7 @@ namespace addressbook_web_tests_unit_tests
             alert.Accept();
             //alert.Dismiss();
 
+            contactsListHash = null;
             return this;
         }
 
@@ -74,19 +77,23 @@ namespace addressbook_web_tests_unit_tests
             return this;
         }
 
+        private List<ContactData> contactsListHash = null;
         public List<ContactData> GetContactsList()
         {
-            List<ContactData> cd = new List<ContactData>();
-            this.GoToContacts();
-            foreach (IWebElement el in driver.FindElements(By.XPath("//table[@id='maintable']/tbody/tr[@name='entry']")))
+            if (contactsListHash == null)
             {
-                IReadOnlyList <IWebElement> tags = el.FindElements(By.TagName("td"));
-                cd.Add(new ContactData(
-                    tags[2].Text,
-                    tags[1].Text
-                ));
+                contactsListHash = new List<ContactData>();
+                this.GoToContacts();
+                foreach (IWebElement el in driver.FindElements(By.XPath("//table[@id='maintable']/tbody/tr[@name='entry']")))
+                {
+                    IReadOnlyList<IWebElement> tags = el.FindElements(By.TagName("td"));
+                    contactsListHash.Add(new ContactData(
+                        tags[2].Text,
+                        tags[1].Text
+                    ));
+                }
             }
-            return cd;
+            return new List<ContactData>(contactsListHash);
         }
     }
 }
