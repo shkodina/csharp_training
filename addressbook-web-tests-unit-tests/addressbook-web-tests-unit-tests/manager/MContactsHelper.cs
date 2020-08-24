@@ -90,7 +90,10 @@ namespace addressbook_web_tests_unit_tests
                     contactsListHash.Add(new ContactData(
                         tags[2].Text,
                         tags[1].Text
-                    ));
+                    )
+                    {
+                        Id = el.FindElement(By.TagName("input")).GetAttribute("value")
+                    });
                 }
             }
             return new List<ContactData>(contactsListHash);
