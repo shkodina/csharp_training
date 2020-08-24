@@ -24,6 +24,8 @@ namespace addressbook_web_tests_unit_tests
 
             oldGroups.Add(group);
 
+            Assert.AreEqual(oldGroups.Count, app.mGroupsHelper.GetGroupsCount());
+
             List<GroupData> newGroups = app.mGroupsHelper.GetGroupsList();
 
             oldGroups.Sort();
@@ -48,7 +50,10 @@ namespace addressbook_web_tests_unit_tests
                 .SubmitDeleteGroup()
                 .GoToGroups();
 
+            GroupData removedGroup = oldGroups[index_of_changed_group];
             oldGroups.RemoveAt(index_of_changed_group);
+
+            Assert.AreEqual(oldGroups.Count, app.mGroupsHelper.GetGroupsCount());
 
             List<GroupData> newGroups = app.mGroupsHelper.GetGroupsList();
 
@@ -56,6 +61,11 @@ namespace addressbook_web_tests_unit_tests
             newGroups.Sort();
 
             Assert.AreEqual(oldGroups, newGroups);
+
+            foreach (GroupData gr in newGroups)
+            {
+                Assert.AreNotEqual(removedGroup.Id, gr.Id);
+            }
         }
 
         [Test]
@@ -67,20 +77,23 @@ namespace addressbook_web_tests_unit_tests
                 GroupCreationTest();
 
             List<GroupData> oldGroups = app.mGroupsHelper.GetGroupsList();
+            GroupData editedGroup = oldGroups[index_of_changed_group];
 
-            GroupData group = new GroupData("group1 edited " + GenNewSuffixByCurTimeStamp());
-            group.Footer = "gr1 edited footer " + GenNewSuffixByCurTimeStamp();
-            group.Header = "gr1 edited fheader " + GenNewSuffixByCurTimeStamp();
+            GroupData newGroup = new GroupData("group1 edited " + GenNewSuffixByCurTimeStamp());
+            newGroup.Footer = "gr1 edited footer " + GenNewSuffixByCurTimeStamp();
+            newGroup.Header = "gr1 edited fheader " + GenNewSuffixByCurTimeStamp();
 
             app.mGroupsHelper
                 .GoToGroups()
                 .SelectGroup(index_of_changed_group)
                 .SubmitEditGroup()
-                .FillNewGroupFields(group)
+                .FillNewGroupFields(newGroup)
                 .SubmitUpdateGroup()
                 .GoToGroups();
 
-            oldGroups[index_of_changed_group] = group;
+            oldGroups[index_of_changed_group] = newGroup;
+
+            Assert.AreEqual(oldGroups.Count, app.mGroupsHelper.GetGroupsCount());
 
             List<GroupData> newGroups = app.mGroupsHelper.GetGroupsList();
 
@@ -88,6 +101,14 @@ namespace addressbook_web_tests_unit_tests
             newGroups.Sort();
 
             Assert.AreEqual(oldGroups, newGroups);
+
+            foreach (GroupData gr in newGroups)
+            {
+                if (gr.Id == editedGroup.Id)
+                {
+                    Assert.AreEqual(gr.Name, newGroup.Name);
+                }
+            }
         }
     }
 }

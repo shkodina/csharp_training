@@ -17,15 +17,29 @@ namespace addressbook_web_tests_unit_tests
             return this;
         }
 
+        private List<GroupData> groupsHash = null;
+
         public List<GroupData> GetGroupsList()
         {
-            List<GroupData> groups = new List<GroupData>();
-            GoToGroups();
-            foreach (IWebElement el in driver.FindElements(By.CssSelector("span.group")))
+            if (groupsHash == null)
             {
-                groups.Add(new GroupData(el.Text));
+                groupsHash = new List<GroupData>();
+                GoToGroups();
+                foreach (IWebElement el in driver.FindElements(By.CssSelector("span.group")))
+                {
+                    groupsHash.Add(new GroupData(el.Text)
+                        {
+                            Id = el.FindElement(By.TagName("input")).GetAttribute("value")
+                        }
+                    );
+                }
             }
-            return groups;
+            return new List<GroupData>(groupsHash);
+        }
+
+        public int GetGroupsCount()
+        {
+            return driver.FindElements(By.CssSelector("span.group")).Count;
         }
 
         public MGroupsHelper InitCreationNewGroup()
@@ -45,6 +59,7 @@ namespace addressbook_web_tests_unit_tests
         public MGroupsHelper SubmitGroupCreation()
         {
             this.SubmitByClick("submit");
+            groupsHash = null;
             return this;
         }
 
@@ -58,6 +73,7 @@ namespace addressbook_web_tests_unit_tests
         public MGroupsHelper SubmitDeleteGroup()
         {
             driver.FindElement(By.XPath("(//input[@name='delete'])[2]")).Click();
+            groupsHash = null;
             return this;
         }
 
@@ -76,6 +92,7 @@ namespace addressbook_web_tests_unit_tests
         public MGroupsHelper SubmitUpdateGroup()
         {
             this.SubmitByClick("update");
+            groupsHash = null;
             return this;
         }
     }

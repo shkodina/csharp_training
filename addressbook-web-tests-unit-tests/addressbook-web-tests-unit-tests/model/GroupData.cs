@@ -9,9 +9,10 @@ namespace addressbook_web_tests_unit_tests
 {
     public class GroupData : IEquatable<GroupData>, IComparable<GroupData>
     {
-        private string name = "";
-        private string header = "";
-        private string footer = "";
+        private string name = null;
+        private string header = null;
+        private string footer = null;
+        private string id = null;
 
         public GroupData(string name)
         {
@@ -21,6 +22,7 @@ namespace addressbook_web_tests_unit_tests
         public string Header { get => header; set => header = value; }
         public string Footer { get => footer; set => footer = value; }
         public string Name { get => name; set => name = value; }
+        public string Id { get => id; set => id = value; }
 
         public int CompareTo(GroupData other)
         {
@@ -38,5 +40,9 @@ namespace addressbook_web_tests_unit_tests
             return Name == other.Name;
         }
 
+        public override int GetHashCode()
+        {
+            return Name.GetHashCode();
+        }
     }
 }
