@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using OpenQA.Selenium;
 
 namespace addressbook_web_tests_unit_tests
@@ -71,6 +72,21 @@ namespace addressbook_web_tests_unit_tests
             v = v + 2;
             driver.FindElement(By.XPath("//table[@id='maintable']/tbody/tr[" + v + "]/td/input")).Click();
             return this;
+        }
+
+        public List<ContactData> GetContactsList()
+        {
+            List<ContactData> cd = new List<ContactData>();
+            this.GoToContacts();
+            foreach (IWebElement el in driver.FindElements(By.XPath("//table[@id='maintable']/tbody/tr[@name='entry']")))
+            {
+                IReadOnlyList <IWebElement> tags = el.FindElements(By.TagName("td"));
+                cd.Add(new ContactData(
+                    tags[2].Text,
+                    tags[1].Text
+                ));
+            }
+            return cd;
         }
     }
 }

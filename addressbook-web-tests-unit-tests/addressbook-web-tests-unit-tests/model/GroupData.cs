@@ -37,5 +37,6 @@ namespace addressbook_web_tests_unit_tests
                 return true;
             return Name == other.Name;
         }
+
     }
 }

@@ -1,4 +1,5 @@
-﻿using NUnit.Framework;
+﻿using System.Collections.Generic;
+using NUnit.Framework;
 
 namespace addressbook_web_tests_unit_tests
 {
@@ -9,7 +10,9 @@ namespace addressbook_web_tests_unit_tests
         [Test]
         public void ContactCreationTest()
         {
-            ContactData cd = new ContactData("Alex", "Piper");
+            List<ContactData> oldList = app.mContactsHelper.GetContactsList();
+
+            ContactData cd = new ContactData("Alex", "SuperPiper");
             app.mContactsHelper
                 .GoToContacts()
                 .InitCreationNewContact()
@@ -17,7 +20,15 @@ namespace addressbook_web_tests_unit_tests
                 .SubmitContactCreation()
                 .GoToContacts();
 
-            //Thread.Sleep(2000);
+            oldList.Add(cd);
+
+            List<ContactData> newList = app.mContactsHelper.GetContactsList();
+
+            oldList.Sort();
+            newList.Sort();
+
+            Assert.AreEqual(oldList, newList);
+
         }
 
         [Test]
@@ -41,14 +52,28 @@ namespace addressbook_web_tests_unit_tests
         [Test]
         public void ContactRemovalTest()
         {
+            
             if (!app.mContactsHelper.IsContactExist())
                 ContactCreationTest();
 
+            List<ContactData> oldList = app.mContactsHelper.GetContactsList();
+
+            int index_for_remove = 0;
+
             app.mContactsHelper
                 .GoToContacts()
-                .SelectContact(0)
+                .SelectContact(index_for_remove)
                 .SubmitDeleteContact()
                 .GoToContacts();
+
+            oldList.RemoveAt(index_for_remove);
+
+            List<ContactData> newList = app.mContactsHelper.GetContactsList();
+
+            oldList.Sort();
+            newList.Sort();
+
+            Assert.AreEqual(oldList, newList);
         }
     }
 }
