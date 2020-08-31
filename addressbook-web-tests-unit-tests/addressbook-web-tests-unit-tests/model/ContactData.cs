@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 
 namespace addressbook_web_tests_unit_tests
@@ -30,7 +31,7 @@ namespace addressbook_web_tests_unit_tests
             get {
                 if (allPhones == null)
                 {
-                    allPhones = CleanUpPhone(HomePhone) 
+                    allPhones = CleanUpPhone(HomePhone)
                                 + CleanUpPhone(MobiPhone)
                                 + CleanUpPhone(WorkPhone).Trim();
                 }
@@ -42,12 +43,14 @@ namespace addressbook_web_tests_unit_tests
 
         private string CleanUpPhone(string phone)
         {
-            //return new Regexp()
+            return Regex.Replace(phone, "[ ()-]", "") + "\r\n";
+            /*
             return phone.Replace(" ", "")
                         .Replace("(", "")
                         .Replace(")", "")
                         .Replace("-", "")
                         + "\r\n";
+            */
         }
 
         public int CompareTo(ContactData other)
