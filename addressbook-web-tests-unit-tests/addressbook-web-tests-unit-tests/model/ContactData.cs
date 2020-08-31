@@ -18,6 +18,7 @@ namespace addressbook_web_tests_unit_tests
         }
 
         public string Name { get; set; }
+        public string MiddleName { get; set; }
         public string Surname { get; set; }
         public string Id { get; set; }
         public string Address { get; set; }
@@ -25,6 +26,10 @@ namespace addressbook_web_tests_unit_tests
         public string HomePhone { get; set; }
         public string WorkPhone { get; set; }
         public string Fax { get; set; }
+
+        public string EMail { get; set; }
+        public string EMail2 { get; set; }
+        public string EMail3 { get; set; }
 
         private string allPhones;
         public string AllPhones {
@@ -76,7 +81,40 @@ namespace addressbook_web_tests_unit_tests
 
         public override string ToString()
         {
-            return "Surname " + Surname + " Name: " + Name;
+            string endl = "\r\n";
+            string asText = "";
+
+            if (Name != null)
+                asText = asText.Trim() + " " + Name;
+            if (MiddleName != null)
+                asText = asText.Trim() + " " + MiddleName;
+            if (Surname != null)
+                asText = asText.Trim() + " " + Surname;
+
+            asText = asText + endl;
+
+            if (Address != null)
+                asText = asText + Address + endl;
+
+            asText = asText + endl;
+
+            if (HomePhone != null)
+                asText = asText + "H: " + HomePhone + endl;
+            if (MobiPhone != null)
+                asText = asText + "M: " + MobiPhone + endl;
+            if (WorkPhone != null)
+                asText = asText + "W: " + WorkPhone + endl;
+
+            asText = asText + endl;
+
+            if (EMail != null)
+                asText = asText + EMail + endl;
+            if (EMail2 != null)
+                asText = asText + EMail2 + endl;
+            if (EMail3 != null)
+                asText = asText + EMail3 + endl;
+
+            return asText.Trim();
         }
 
         public override int GetHashCode()

@@ -51,6 +51,13 @@ namespace addressbook_web_tests_unit_tests
             return this;
         }
 
+        public MContactsHelper IniOpenDetailContact(int v)
+        {
+            v = v + 2;
+            driver.FindElement(By.XPath("//table[@id='maintable']/tbody/tr[" + v + "]//img[@alt='Details']")).Click();
+            return this;
+        }
+
         public MContactsHelper SubmitDeleteContact()
         {
             driver.FindElement(By.XPath("//input[@value='Delete']")).Click();
@@ -102,20 +109,33 @@ namespace addressbook_web_tests_unit_tests
             return new List<ContactData>(contactsListHash);
         }
 
+        public string GetContactDetailsFromForm()
+        {
+            IWebElement content = driver.FindElement(By.XPath("//div[@id='content']"));
+            return content.Text;
+
+        }
+
         public ContactData GetContactInfoFromForm()
         {
-            ContactData cd = new ContactData(
-                this.driver.FindElement(By.Name("firstname")).GetAttribute("Value"),
-                this.driver.FindElement(By.Name("lastname")).GetAttribute("Value")
-                    );
 
-            cd.Address = this.driver.FindElement(By.Name("address")).Text;
-            cd.MobiPhone = this.driver.FindElement(By.Name("mobile")).GetAttribute("Value");
-            cd.HomePhone = this.driver.FindElement(By.Name("home")).GetAttribute("Value");
-            cd.WorkPhone = this.driver.FindElement(By.Name("work")).GetAttribute("Value");
-            cd.Fax = this.driver.FindElement(By.Name("fax")).GetAttribute("Value");
+            ContactData cd = new ContactData(
+                GetNullIfEmpty(this.driver.FindElement(By.Name("firstname")).GetAttribute("Value")),
+                GetNullIfEmpty(this.driver.FindElement(By.Name("lastname")).GetAttribute("Value"))
+                    );
+            cd.MiddleName = GetNullIfEmpty(this.driver.FindElement(By.Name("middlename")).GetAttribute("Value"));
+
+            cd.Address = GetNullIfEmpty(this.driver.FindElement(By.Name("address")).Text);
+            cd.MobiPhone = GetNullIfEmpty(this.driver.FindElement(By.Name("mobile")).GetAttribute("Value"));
+            cd.HomePhone = GetNullIfEmpty(this.driver.FindElement(By.Name("home")).GetAttribute("Value"));
+            cd.WorkPhone = GetNullIfEmpty(this.driver.FindElement(By.Name("work")).GetAttribute("Value"));
+            cd.Fax = GetNullIfEmpty(this.driver.FindElement(By.Name("fax")).GetAttribute("Value"));
+            cd.EMail = GetNullIfEmpty(this.driver.FindElement(By.Name("email")).GetAttribute("Value"));
+            cd.EMail2 = GetNullIfEmpty(this.driver.FindElement(By.Name("email2")).GetAttribute("Value"));
+            cd.EMail3 = GetNullIfEmpty(this.driver.FindElement(By.Name("email3")).GetAttribute("Value"));
             return cd;
         }
+
 
         public ContactData GetContactInfoFormTable(int v)
         {

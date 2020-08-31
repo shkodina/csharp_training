@@ -95,5 +95,33 @@ namespace addressbook_web_tests_unit_tests
             Assert.AreEqual(fromTable.Address, fromForm.Address);
             Assert.AreEqual(fromTable.AllPhones, fromForm.AllPhones);
         }
+        [Test]
+
+        public void CheckContactDetailsTest()
+        {
+            int cnt = app.mContactsHelper.GoToContacts().GetNumberOfSearchResults();
+            for (int index = 0; index < cnt; index++)
+            {
+                CheckContactDetails(index);
+            }
+
+        }
+
+        public void CheckContactDetails(int index)
+        {
+            ContactData fromForm = app.mContactsHelper
+                                        .GoToContacts()
+                                        .InitEditContact(index)
+                                        .GetContactInfoFromForm();
+
+            string detailsInfoTxt = app.mContactsHelper
+                                        .GoToContacts()
+                                        .IniOpenDetailContact(index)
+                                        .GetContactDetailsFromForm();
+
+
+
+            Assert.AreEqual(fromForm.ToString(), detailsInfoTxt);
+        }
     }
 }

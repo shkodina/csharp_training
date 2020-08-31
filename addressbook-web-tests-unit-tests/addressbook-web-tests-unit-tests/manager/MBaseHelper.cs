@@ -97,6 +97,14 @@ namespace addressbook_web_tests_unit_tests
             driver.FindElement(By.LinkText("home")).Click();
         }
 
+        public string GetNullIfEmpty(string txt)
+        {
+            if (txt == null)
+                return null;
+            if (txt.Trim() == "")
+                return null;
+            return txt;
+        }
     }
 }
 
