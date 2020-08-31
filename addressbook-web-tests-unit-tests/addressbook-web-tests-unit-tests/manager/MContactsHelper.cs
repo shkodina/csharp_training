@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Text.RegularExpressions;
 using OpenQA.Selenium;
 
 namespace addressbook_web_tests_unit_tests
@@ -132,6 +133,13 @@ namespace addressbook_web_tests_unit_tests
             cd.Address = cells[3].Text;
             cd.AllPhones = cells[5].Text;
             return cd;
+        }
+
+        public int GetNumberOfSearchResults()
+        {
+            string s = driver.FindElement(By.TagName("label")).Text;
+            Match m = new Regex(@"\d+").Match(s);
+            return Int32.Parse(m.Value);
         }
     }
 }
