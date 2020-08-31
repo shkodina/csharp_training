@@ -44,5 +44,14 @@ namespace addressbook_web_tests_unit_tests
         {
             return Name.GetHashCode();
         }
+
+        public override string ToString()
+        {
+            return System.String.Format("Name({0})Header[{1}]Footer[{2}]",
+                Name,
+                Header,
+                Footer
+                );
+        }
     }
 }

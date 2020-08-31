@@ -28,5 +28,23 @@ namespace addressbook_web_tests_unit_tests
         {
             return System.DateTime.Now.ToString();
         }
+
+        private static Random rnd = new Random();
+        public static string GenRndStr(int max)
+        {
+           
+            int l = Convert.ToInt32(rnd.NextDouble() * max);
+            StringBuilder strb = new StringBuilder();
+            for (int i = 0; i < l; i++)
+            {
+                strb.Append(
+                    Convert.ToChar(32 + // make simbol printable (from 32 to 255)
+                        Convert.ToInt32(rnd.NextDouble() * 223) // gen simbol position from 0 to 223 
+                    )
+                );
+            }
+            return strb.ToString();
+        }
+
     }
 }

@@ -6,14 +6,27 @@ namespace addressbook_web_tests_unit_tests
     [TestFixture]
     public class GroupsTests : BaseTestsAuth
     {
-        [Test]
-        public void GroupCreationTest()
+
+        public static IEnumerable<GroupData> RandomGroupProvider()
+        {
+            List<GroupData> groups = new List<GroupData>();
+
+            for (int i = 0; i < 5; i++)
+            {
+                groups.Add(new GroupData(GenRndStr(30))
+                {
+                    Header = GenRndStr(100),
+                    Footer = GenRndStr(100)
+                });
+            }
+
+            return groups;
+        }
+
+        [Test, TestCaseSource("RandomGroupProvider")]
+        public void GroupCreationTest(GroupData group)
         {
             List<GroupData> oldGroups = app.mGroupsHelper.GetGroupsList();
-
-            GroupData group = new GroupData("group1");
-            group.Footer = "gr1 footer";
-            group.Header = "gr1 fheader";
 
             app.mGroupsHelper
                 .GoToGroups()
@@ -40,7 +53,7 @@ namespace addressbook_web_tests_unit_tests
             int index_of_changed_group = 0;
 
             if (!app.mGroupsHelper.IsGroupExists())
-                GroupCreationTest();
+                GroupCreationTest(RandomGroupProvider().GetEnumerator().Current);
 
             List<GroupData> oldGroups = app.mGroupsHelper.GetGroupsList();
 
@@ -74,7 +87,7 @@ namespace addressbook_web_tests_unit_tests
             int index_of_changed_group = 0;
 
             if (!app.mGroupsHelper.IsGroupExists())
-                GroupCreationTest();
+                GroupCreationTest(RandomGroupProvider().GetEnumerator().Current);
 
             List<GroupData> oldGroups = app.mGroupsHelper.GetGroupsList();
             GroupData editedGroup = oldGroups[index_of_changed_group];
