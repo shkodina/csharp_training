@@ -10,7 +10,7 @@ namespace addressbook_web_tests_unit_tests
         [Test]
         public void ContactCreationTest()
         {
-            List<ContactData> oldList = app.mContactsHelper.GetContactsList();
+            List<ContactData> oldList = app.mContactsHelper.GoToContacts().GetContactsList();
 
             ContactData cd = new ContactData("Alex", "SuperPiper");
             app.mContactsHelper
@@ -22,7 +22,7 @@ namespace addressbook_web_tests_unit_tests
 
             oldList.Add(cd);
 
-            List<ContactData> newList = app.mContactsHelper.GetContactsList();
+            List<ContactData> newList = app.mContactsHelper.GoToContacts().GetContactsList();
 
             oldList.Sort();
             newList.Sort();
@@ -56,7 +56,7 @@ namespace addressbook_web_tests_unit_tests
             if (!app.mContactsHelper.IsContactExist())
                 ContactCreationTest();
 
-            List<ContactData> oldList = app.mContactsHelper.GetContactsList();
+            List<ContactData> oldList = app.mContactsHelper.GoToContacts().GetContactsList();
 
             int index_for_remove = 0;
 
@@ -68,12 +68,32 @@ namespace addressbook_web_tests_unit_tests
 
             oldList.RemoveAt(index_for_remove);
 
-            List<ContactData> newList = app.mContactsHelper.GetContactsList();
+            List<ContactData> newList = app.mContactsHelper.GoToContacts().GetContactsList();
 
             oldList.Sort();
             newList.Sort();
 
             Assert.AreEqual(oldList, newList);
+        }
+
+        [Test]
+        public void CheckContactInformationTest()
+        {
+            int index = 0;
+            ContactData fromTable = app.mContactsHelper
+                                        .GoToContacts()
+                                        .GetContactInfoFormTable(index);
+
+            ContactData fromForm = app.mContactsHelper
+                                        .GoToContacts()
+                                        .InitEditContact(index)
+                                        .GetContactInfoFromForm();
+
+
+
+            Assert.AreEqual(fromTable, fromForm);
+            Assert.AreEqual(fromTable.Address, fromForm.Address);
+            Assert.AreEqual(fromTable.AllPhones, fromForm.AllPhones);
         }
     }
 }

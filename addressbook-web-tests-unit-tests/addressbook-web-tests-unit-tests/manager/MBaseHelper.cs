@@ -60,9 +60,17 @@ namespace addressbook_web_tests_unit_tests
         {
             return (IsLogin())
                     &&
-                    driver.FindElement(By.Name("logout")).FindElement(By.TagName("b")).Text 
-                        == 
-                        "(" + correctLogin.Name + ")";
+
+                    GetLoogedUserName() == correctLogin.Name;
+        }
+
+        private string GetLoogedUserName()
+        {
+            return driver.FindElement(By.Name("logout"))
+                    .FindElement(By.TagName("b"))
+                    .Text
+                    .Split('(')[1]
+                    .Split(')')[0];
         }
 
         public bool IsElementPresent(By by)

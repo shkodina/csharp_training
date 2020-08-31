@@ -8,20 +8,47 @@ namespace addressbook_web_tests_unit_tests
 {
     public class ContactData : IEquatable<ContactData>, IComparable<ContactData>
     {
-        private string name = null;
-        private string surname = null;
-        private string id = null;
         public ContactData() { }
 
         public ContactData(string name, string surname)
         {
-            this.name = name;
-            this.surname = surname;
+            Name = name;
+            Surname = surname;
         }
 
-        public string Name { get => name; set => name = value; }
-        public string Surname { get => surname; set => surname = value; }
-        public string Id { get => id; set => id = value; }
+        public string Name { get; set; }
+        public string Surname { get; set; }
+        public string Id { get; set; }
+        public string Address { get; set; }
+        public string MobiPhone { get; set; }
+        public string HomePhone { get; set; }
+        public string WorkPhone { get; set; }
+        public string Fax { get; set; }
+
+        private string allPhones;
+        public string AllPhones {
+            get {
+                if (allPhones == null)
+                {
+                    allPhones = CleanUpPhone(HomePhone) 
+                                + CleanUpPhone(MobiPhone)
+                                + CleanUpPhone(WorkPhone).Trim();
+                }
+                return allPhones;
+            }
+            
+            set { allPhones = value; } 
+        }
+
+        private string CleanUpPhone(string phone)
+        {
+            //return new Regexp()
+            return phone.Replace(" ", "")
+                        .Replace("(", "")
+                        .Replace(")", "")
+                        .Replace("-", "")
+                        + "\r\n";
+        }
 
         public int CompareTo(ContactData other)
         {

@@ -78,12 +78,14 @@ namespace addressbook_web_tests_unit_tests
         }
 
         private List<ContactData> contactsListHash = null;
+
+ 
+ 
         public List<ContactData> GetContactsList()
         {
             if (contactsListHash == null)
             {
                 contactsListHash = new List<ContactData>();
-                this.GoToContacts();
                 foreach (IWebElement el in driver.FindElements(By.XPath("//table[@id='maintable']/tbody/tr[@name='entry']")))
                 {
                     IReadOnlyList<IWebElement> tags = el.FindElements(By.TagName("td"));
@@ -97,6 +99,39 @@ namespace addressbook_web_tests_unit_tests
                 }
             }
             return new List<ContactData>(contactsListHash);
+        }
+
+        public ContactData GetContactInfoFromForm()
+        {
+            ContactData cd = new ContactData(
+                this.driver.FindElement(By.Name("firstname")).GetAttribute("Value"),
+                this.driver.FindElement(By.Name("lastname")).GetAttribute("Value")
+                    );
+
+            cd.Address = this.driver.FindElement(By.Name("address")).Text;
+            cd.MobiPhone = this.driver.FindElement(By.Name("mobile")).GetAttribute("Value");
+            cd.HomePhone = this.driver.FindElement(By.Name("home")).GetAttribute("Value");
+            cd.WorkPhone = this.driver.FindElement(By.Name("work")).GetAttribute("Value");
+            cd.Fax = this.driver.FindElement(By.Name("fax")).GetAttribute("Value");
+            return cd;
+        }
+
+        public ContactData GetContactInfoFormTable(int v)
+        {
+            IList<IWebElement> lines = 
+                driver.FindElements(
+                          By.XPath("//table[@id='maintable']/tbody/tr[@name='entry']")
+                       );
+
+            IReadOnlyList<IWebElement> cells = lines[v].FindElements(By.TagName("td"));
+
+            ContactData cd = new ContactData(
+                cells[2].Text,
+                cells[1].Text
+                );
+            cd.Address = cells[3].Text;
+            cd.AllPhones = cells[5].Text;
+            return cd;
         }
     }
 }
