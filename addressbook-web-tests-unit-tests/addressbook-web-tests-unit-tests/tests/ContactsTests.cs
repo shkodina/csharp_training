@@ -6,13 +6,33 @@ namespace addressbook_web_tests_unit_tests
     [TestFixture]
     public class ContactsTests : BaseTestsAuth
     {
+        public static IEnumerable<ContactData> RandomContactProvider()
+        {
+            List<ContactData> contacts = new List<ContactData>();
 
-        [Test]
-        public void ContactCreationTest()
+            for (int i = 0; i < 5; i++)
+            {
+                contacts.Add(new ContactData(GenRndStr(30, true), GenRndStr(30, true))
+                {
+                    MiddleName = GenRndStr(30, true),
+                    Address = GenRndStr(100),
+                    EMail = GenRndStr(10, true) + "@" + GenRndStr(3, true) + "." + GenRndStr(2, true),
+                    EMail2 = GenRndStr(10, true) + "@" + GenRndStr(3, true) + "." + GenRndStr(2, true),
+                    EMail3 = GenRndStr(10, true) + "@" + GenRndStr(3, true) + "." + GenRndStr(2, true),
+                    MobiPhone = GenRndPhone(8, 20),
+                    HomePhone = GenRndPhone(8, 20),
+                    WorkPhone = GenRndPhone(8, 20),
+                });
+            }
+
+            return contacts;
+        }
+
+        [Test,TestCaseSource("RandomContactProvider")]
+        public void ContactCreationTest(ContactData cd)
         {
             List<ContactData> oldList = app.mContactsHelper.GoToContacts().GetContactsList();
 
-            ContactData cd = new ContactData("Alex", "SuperPiper");
             app.mContactsHelper
                 .GoToContacts()
                 .InitCreationNewContact()
@@ -35,7 +55,7 @@ namespace addressbook_web_tests_unit_tests
         public void ContactEditTest()
         {
             if (!app.mContactsHelper.IsContactExist())
-                ContactCreationTest();
+                ContactCreationTest(RandomContactProvider().GetEnumerator().Current);
 
             ContactData cd = 
                 new ContactData("AlexEdit " + GenNewSuffixByCurTimeStamp()
@@ -54,7 +74,7 @@ namespace addressbook_web_tests_unit_tests
         {
             
             if (!app.mContactsHelper.IsContactExist())
-                ContactCreationTest();
+                ContactCreationTest(RandomContactProvider().GetEnumerator().Current);
 
             List<ContactData> oldList = app.mContactsHelper.GoToContacts().GetContactsList();
 

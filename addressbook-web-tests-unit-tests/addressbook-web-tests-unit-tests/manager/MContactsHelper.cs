@@ -20,7 +20,19 @@ namespace addressbook_web_tests_unit_tests
         public MContactsHelper FillNewContactFields(ContactData cd)
         {
             FillInputByName("firstname", cd.Name);
+            FillInputByName("middlename", cd.MiddleName);
             FillInputByName("lastname", cd.Surname);
+
+            FillInputByName("home", cd.HomePhone);
+            FillInputByName("work", cd.WorkPhone);
+            FillInputByName("mobile", cd.MobiPhone);
+
+            FillInputByName("address", cd.Address);
+
+            FillInputByName("email", cd.EMail); 
+            FillInputByName("email2", cd.EMail2); 
+            FillInputByName("email3", cd.EMail3); 
+
             return this;
         }
 
