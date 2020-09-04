@@ -14,7 +14,11 @@ namespace addressbook_web_tests_unit_tests
         private string footer = null;
         private string id = null;
 
-        public GroupData(string name)
+        public GroupData()
+        {
+        }
+
+       public GroupData(string name)
         {
             this.name = name;
         }
