@@ -86,6 +86,7 @@ namespace addressbook_test_data_generators
 
             wb.Close();
             app.Visible = false;
+            app.Quit();
         }
     }
 }

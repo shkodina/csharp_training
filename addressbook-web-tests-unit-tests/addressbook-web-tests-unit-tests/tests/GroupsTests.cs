@@ -6,6 +6,8 @@ using System.Linq;
 using System.Xml;
 using System.Xml.Serialization;
 using Newtonsoft.Json;
+using Excel = Microsoft.Office.Interop.Excel;
+
 
 namespace addressbook_web_tests_unit_tests
 {
@@ -24,6 +26,33 @@ namespace addressbook_web_tests_unit_tests
                     Footer = parts[2]
                 });
             }
+
+            return groups;
+        }
+       public static IEnumerable<GroupData> GroupDataFromExcelFile()
+        {
+            List<GroupData> groups = new List<GroupData>();
+
+            Excel.Application app = new Excel.Application();
+            app.Visible = true;
+
+            Excel.Workbook wb = app.Workbooks.Open(new BaseData().TestDataBaseAddress + "groups.xlsx");
+            Excel.Worksheet sheet = wb.ActiveSheet;
+            Excel.Range range = sheet.UsedRange;
+
+            for (int i = 1; i <= range.Rows.Count; i++)
+            {
+                groups.Add(new GroupData()
+                {
+                    Name = range.Cells[i, 1].Value,
+                    Header = range.Cells[i, 2].Value,
+                    Footer = range.Cells[i, 3].Value
+                });
+            }
+
+            wb.Close();
+            app.Visible = false;
+            app.Quit();
 
             return groups;
         }
@@ -59,7 +88,7 @@ namespace addressbook_web_tests_unit_tests
 
         public static IEnumerable<GroupData> GroupsCreator()
         {
-            return GroupDataFromJSONFile();
+            return GroupDataFromExcelFile();
         }             
 
         [Test, TestCaseSource("GroupsCreator")]
