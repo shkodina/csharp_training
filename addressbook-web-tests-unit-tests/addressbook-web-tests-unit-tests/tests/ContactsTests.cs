@@ -3,16 +3,14 @@ using NUnit.Framework;
 using System.IO;
 using System;
 using System.Linq;
-using System.Xml;
-using System.Xml.Serialization;
-using Newtonsoft.Json;
-using Excel = Microsoft.Office.Interop.Excel;
+
 
 namespace addressbook_web_tests_unit_tests
 {
     [TestFixture]
     public class ContactsTests : BaseTestsAuth
     {
+/*
         public static IEnumerable<ContactData> ContactDataFromXMLFile()
         {
             return (List<ContactData>)
@@ -26,7 +24,7 @@ namespace addressbook_web_tests_unit_tests
                     File.ReadAllText(new BaseData().TestDataBaseAddress + "contacts.json")
                 );
         }
-
+*/
         public static IEnumerable<ContactData> RandomContactProvider(int count = 5)
         {
             List<ContactData> contacts = new List<ContactData>();
@@ -51,7 +49,15 @@ namespace addressbook_web_tests_unit_tests
 
         public static IEnumerable<ContactData> ContactProvider()
         {
-            return ContactDataFromXMLFile();
+            //return RandomContactProvider();
+
+            //return ContactDataFromXMLFile();
+            return ReadDataFromXMLFile<ContactData>("contacts.xml");
+
+            //return ContactDataFromJSONFile();
+            //return ReadDataFromJSONFile<ContactData>("contacts.json");
+
+
         }
 
         [Test,TestCaseSource("ContactProvider")]

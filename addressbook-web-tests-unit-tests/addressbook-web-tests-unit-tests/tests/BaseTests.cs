@@ -4,6 +4,12 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
+using System.IO;
+using System.Xml;
+using System.Xml.Serialization;
+using Newtonsoft.Json;
+using Excel = Microsoft.Office.Interop.Excel;
+
 using NUnit.Framework;
 using OpenQA.Selenium;
 using OpenQA.Selenium.Firefox;
@@ -93,5 +99,20 @@ namespace addressbook_web_tests_unit_tests
             // didgits codes = [48:57]
             return Convert.ToChar(48 + Convert.ToInt32(rnd.NextDouble() * (57 - 48 + 1)));
         }
+
+        public static IEnumerable<T> ReadDataFromXMLFile<T>(string fileName)
+        {
+            return (List<T>)
+                new XmlSerializer(typeof(List<T>)).
+                    Deserialize(new StreamReader(new BaseData().TestDataBaseAddress + fileName));
+        }
+        public static IEnumerable<T> ReadDataFromJSONFile<T>(string fileName)
+        {
+            return JsonConvert.DeserializeObject<List<T>>
+                (
+                    File.ReadAllText(new BaseData().TestDataBaseAddress + fileName)
+                );
+        }
+
     }
 }

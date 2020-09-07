@@ -14,7 +14,7 @@ namespace addressbook_web_tests_unit_tests
     [TestFixture]
     public class GroupsTests : BaseTestsAuth
     {
-        public static IEnumerable<GroupData> GroupDataFromCSVFile()
+       public static IEnumerable<GroupData> GroupDataFromCSVFile()
         {
             List<GroupData> groups = new List<GroupData>();
             foreach (string l in File.ReadAllLines(new BaseData().TestDataBaseAddress + "groups.csv"))
@@ -56,6 +56,8 @@ namespace addressbook_web_tests_unit_tests
 
             return groups;
         }
+       
+        /*
        public static IEnumerable<GroupData> GroupDataFromXMLFile()
         {
             return (List<GroupData>)
@@ -69,7 +71,7 @@ namespace addressbook_web_tests_unit_tests
                     File.ReadAllText(new BaseData().TestDataBaseAddress + "groups.json")
                 );
         }
-
+       */
         public static IEnumerable<GroupData> RandomGroupProvider(int count = 5)
         {
             List<GroupData> groups = new List<GroupData>();
@@ -88,8 +90,16 @@ namespace addressbook_web_tests_unit_tests
 
         public static IEnumerable<GroupData> GroupsCreator()
         {
-            return GroupDataFromXMLFile();
-        }             
+            //return RandomGroupProvider();
+            //return GroupDataFromCSVFile();
+            //return GroupDataFromExcelFile();
+
+            //return GroupDataFromXMLFile();
+            //return ReadDataFromXMLFile<GroupData>("groups.xml");
+
+            //return GroupDataFromJSONFile();
+            return ReadDataFromJSONFile<GroupData>("groups.json");
+        }
 
         [Test, TestCaseSource("GroupsCreator")]
         public void GroupCreationTest(GroupData group)
