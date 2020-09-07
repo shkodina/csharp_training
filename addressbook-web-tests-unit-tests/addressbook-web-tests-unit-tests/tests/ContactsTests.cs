@@ -6,11 +6,11 @@ namespace addressbook_web_tests_unit_tests
     [TestFixture]
     public class ContactsTests : BaseTestsAuth
     {
-        public static IEnumerable<ContactData> RandomContactProvider()
+        public static IEnumerable<ContactData> RandomContactProvider(int count)
         {
             List<ContactData> contacts = new List<ContactData>();
 
-            for (int i = 0; i < 5; i++)
+            for (int i = 0; i < count; i++)
             {
                 contacts.Add(new ContactData(GenRndStr(30, true), GenRndStr(30, true))
                 {
@@ -28,7 +28,12 @@ namespace addressbook_web_tests_unit_tests
             return contacts;
         }
 
-        [Test,TestCaseSource("RandomContactProvider")]
+        public static IEnumerable<ContactData> ContactProvider()
+        {
+            return RandomContactProvider(5);
+        }
+
+        [Test,TestCaseSource("ContactProvider")]
         public void ContactCreationTest(ContactData cd)
         {
             List<ContactData> oldList = app.mContactsHelper.GoToContacts().GetContactsList();
@@ -55,7 +60,7 @@ namespace addressbook_web_tests_unit_tests
         public void ContactEditTest()
         {
             if (!app.mContactsHelper.IsContactExist())
-                ContactCreationTest(RandomContactProvider().GetEnumerator().Current);
+                ContactCreationTest(ContactProvider().GetEnumerator().Current);
 
             ContactData cd = 
                 new ContactData("AlexEdit " + GenNewSuffixByCurTimeStamp()
@@ -74,7 +79,7 @@ namespace addressbook_web_tests_unit_tests
         {
             
             if (!app.mContactsHelper.IsContactExist())
-                ContactCreationTest(RandomContactProvider().GetEnumerator().Current);
+                ContactCreationTest(ContactProvider().GetEnumerator().Current);
 
             List<ContactData> oldList = app.mContactsHelper.GoToContacts().GetContactsList();
 
