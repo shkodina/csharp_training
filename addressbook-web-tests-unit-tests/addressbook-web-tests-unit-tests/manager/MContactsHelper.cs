@@ -163,15 +163,19 @@ namespace addressbook_web_tests_unit_tests
                 cells[1].Text
                 );
             cd.Address = cells[3].Text;
+            cd.AllEMails = cells[4].Text;
             cd.AllPhones = cells[5].Text;
             return cd;
         }
 
         public int GetNumberOfSearchResults()
         {
+            /*
             string s = driver.FindElement(By.TagName("label")).Text;
             Match m = new Regex(@"\d+").Match(s);
             return Int32.Parse(m.Value);
+            */
+            return Int32.Parse(driver.FindElement(By.TagName("label")).FindElement(By.TagName("span")).Text);
         }
     }
 }

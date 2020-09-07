@@ -13,7 +13,6 @@ namespace addressbook_web_tests_unit_tests
 
         public string BaseURL { get => baseURL; set => baseURL = value; }
         public string TestDataBaseAddress { get => testDataBaseAddress; set => testDataBaseAddress = value; }
-
     }
 
 }

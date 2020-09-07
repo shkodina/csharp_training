@@ -3,7 +3,7 @@ using NUnit.Framework;
 using System.IO;
 using System;
 using System.Linq;
-
+using addressbook_web_tests_unit_tests.utils;
 
 namespace addressbook_web_tests_unit_tests
 {
@@ -52,10 +52,10 @@ namespace addressbook_web_tests_unit_tests
             //return RandomContactProvider();
 
             //return ContactDataFromXMLFile();
-            return ReadDataFromXMLFile<ContactData>("contacts.xml");
+            //return ReadDataFromXMLFile<ContactData>("contacts.xml");
 
             //return ContactDataFromJSONFile();
-            //return ReadDataFromJSONFile<ContactData>("contacts.json");
+            return ReadDataFromJSONFile<ContactData>("contacts.json");
 
 
         }
@@ -128,10 +128,9 @@ namespace addressbook_web_tests_unit_tests
             Assert.AreEqual(oldList, newList);
         }
 
-        [Test]
-        public void CheckContactInformationTest()
+        
+        public void CheckContactInformationTest(int index = 0)
         {
-            int index = 0;
             ContactData fromTable = app.mContactsHelper
                                         .GoToContacts()
                                         .GetContactInfoFormTable(index);
@@ -144,9 +143,24 @@ namespace addressbook_web_tests_unit_tests
 
 
             Assert.AreEqual(fromTable, fromForm);
-            Assert.AreEqual(fromTable.Address, fromForm.Address);
+            // TODO
+            Assert.AreEqual(MyUtils.ValOrStub(fromTable.Address), MyUtils.ValOrStub(fromForm.Address));
+
             Assert.AreEqual(fromTable.AllPhones, fromForm.AllPhones);
+            Assert.AreEqual(fromTable.AllEMails, fromForm.AllEMails);
         }
+
+        [Test]
+        public void CheckAllContactInformationTest()
+        {
+            int count = app.mContactsHelper.GoToContacts().GetNumberOfSearchResults();
+            for (int i = 0; i < count; i++)
+            {
+                CheckContactInformationTest(i);
+            }
+        }
+
+
         [Test]
 
         public void CheckContactDetailsTest()

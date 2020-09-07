@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Text.RegularExpressions;
 using System.Threading.Tasks;
+using addressbook_web_tests_unit_tests.utils;
 
 namespace addressbook_web_tests_unit_tests
 {
@@ -46,8 +47,28 @@ namespace addressbook_web_tests_unit_tests
             set { allPhones = value; } 
         }
 
+        private string allEMails;
+        public string AllEMails { 
+        get {
+                if (allEMails == null)
+                {
+                    allEMails = (
+                                  (EMail == null ? "" : (EMail + "\r\n"))
+                                + (EMail2 == null ? "" : (EMail2 + "\r\n"))
+                                + (EMail3 == null ? "" : (EMail3 + "\r\n"))
+                                ).Trim();
+                }
+                return allEMails;
+            }
+
+        set { allEMails = value; } 
+        }
+
         private string CleanUpPhone(string phone)
         {
+            if (phone == null)
+                return "";
+
             return Regex.Replace(phone, "[ ()-]", "") + "\r\n";
             /*
             return phone.Replace(" ", "")
