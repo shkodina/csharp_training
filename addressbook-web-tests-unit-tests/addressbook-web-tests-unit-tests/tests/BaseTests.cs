@@ -93,6 +93,5 @@ namespace addressbook_web_tests_unit_tests
             // didgits codes = [48:57]
             return Convert.ToChar(48 + Convert.ToInt32(rnd.NextDouble() * (57 - 48 + 1)));
         }
-
     }
 }

@@ -88,7 +88,7 @@ namespace addressbook_web_tests_unit_tests
 
         public static IEnumerable<GroupData> GroupsCreator()
         {
-            return GroupDataFromExcelFile();
+            return GroupDataFromXMLFile();
         }             
 
         [Test, TestCaseSource("GroupsCreator")]
