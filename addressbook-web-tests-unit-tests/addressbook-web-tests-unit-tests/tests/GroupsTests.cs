@@ -12,7 +12,7 @@ using addressbook_web_tests_unit_tests.model;
 namespace addressbook_web_tests_unit_tests
 {
     [TestFixture]
-    public class GroupsTests : BaseTestsAuth
+    public class GroupsTests : GroupBaseTests
     {
        public static IEnumerable<GroupData> GroupDataFromCSVFile()
         {
@@ -72,7 +72,7 @@ namespace addressbook_web_tests_unit_tests
                 );
         }
        */
-        public static IEnumerable<GroupData> RandomGroupProvider(int count = 100)
+        public static IEnumerable<GroupData> RandomGroupProvider(int count = 5)
         {
             List<GroupData> groups = new List<GroupData>();
 
@@ -90,7 +90,7 @@ namespace addressbook_web_tests_unit_tests
 
         public static IEnumerable<GroupData> GroupsCreator()
         {
-            return RandomGroupProvider(30);
+            return RandomGroupProvider(5);
             //return GroupDataFromCSVFile();
             //return GroupDataFromExcelFile();
 
@@ -106,7 +106,8 @@ namespace addressbook_web_tests_unit_tests
         {
             
 
-            List<GroupData> oldGroups = app.mGroupsHelper.GetGroupsList();
+            //List<GroupData> oldGroups = app.mGroupsHelper.GetGroupsList();
+            List<GroupData> oldGroups = AddressBookDBHelper.GetAllGroups();
 
             app.mGroupsHelper
                 .GoToGroups()
@@ -119,7 +120,8 @@ namespace addressbook_web_tests_unit_tests
 
             Assert.AreEqual(oldGroups.Count, app.mGroupsHelper.GetGroupsCount());
 
-            List<GroupData> newGroups = app.mGroupsHelper.GetGroupsList();
+            //List<GroupData> newGroups = app.mGroupsHelper.GetGroupsList();
+            List<GroupData> newGroups = AddressBookDBHelper.GetAllGroups();
 
             oldGroups.Sort();
             newGroups.Sort();
@@ -171,7 +173,8 @@ namespace addressbook_web_tests_unit_tests
             if (!app.mGroupsHelper.IsGroupExists())
                 GroupCreationTest(GroupsCreator().ElementAt(0));
 
-            List<GroupData> oldGroups = app.mGroupsHelper.GetGroupsList();
+            //List<GroupData> oldGroups = app.mGroupsHelper.GetGroupsList();
+            List<GroupData> oldGroups = AddressBookDBHelper.GetAllGroups();
             GroupData editedGroup = oldGroups[index_of_changed_group];
 
             GroupData newGroup = new GroupData("group1 edited " + GenNewSuffixByCurTimeStamp());
@@ -180,7 +183,7 @@ namespace addressbook_web_tests_unit_tests
 
             app.mGroupsHelper
                 .GoToGroups()
-                .SelectGroup(index_of_changed_group)
+                .SelectGroup(editedGroup.Id)
                 .SubmitEditGroup()
                 .FillNewGroupFields(newGroup)
                 .SubmitUpdateGroup()
@@ -190,7 +193,8 @@ namespace addressbook_web_tests_unit_tests
 
             Assert.AreEqual(oldGroups.Count, app.mGroupsHelper.GetGroupsCount());
 
-            List<GroupData> newGroups = app.mGroupsHelper.GetGroupsList();
+            //List<GroupData> newGroups = app.mGroupsHelper.GetGroupsList();
+            List<GroupData> newGroups = AddressBookDBHelper.GetAllGroups();
 
             oldGroups.Sort();
             newGroups.Sort();
