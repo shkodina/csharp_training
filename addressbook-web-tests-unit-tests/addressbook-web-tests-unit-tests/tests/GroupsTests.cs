@@ -7,7 +7,7 @@ using System.Xml;
 using System.Xml.Serialization;
 using Newtonsoft.Json;
 using Excel = Microsoft.Office.Interop.Excel;
-
+using addressbook_web_tests_unit_tests.model;
 
 namespace addressbook_web_tests_unit_tests
 {
@@ -202,6 +202,26 @@ namespace addressbook_web_tests_unit_tests
                     Assert.AreEqual(gr.Name, newGroup.Name);
                 }
             }
+        }
+
+        [Test]
+        public void TestDBConnectivity()
+        {
+            DateTime start = DateTime.Now;
+            List<GroupData> fromUI = app.mGroupsHelper.GetGroupsList();
+            DateTime end = DateTime.Now;
+            
+            System.Console.Out.WriteLine(end.Subtract(start));
+
+            AddressBookDB db = new AddressBookDB();
+
+            start = DateTime.Now;
+            List<GroupData> fromDB = (from g in db.Groups select g).ToList();
+            end = DateTime.Now;
+
+            db.Close();
+
+            System.Console.Out.WriteLine(end.Subtract(start));
         }
     }
 }

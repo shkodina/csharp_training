@@ -4,9 +4,11 @@ using System.Collections;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using LinqToDB.Mapping;
 
 namespace addressbook_web_tests_unit_tests
 {
+    [Table(Name = "group_list")]
     public class GroupData : IEquatable<GroupData>, IComparable<GroupData>
     {
         private string name = null;
@@ -23,9 +25,16 @@ namespace addressbook_web_tests_unit_tests
             this.name = name;
         }
 
+        [Column(Name = "group_header")]
         public string Header { get => header; set => header = value; }
+
+        [Column(Name = "group_footer")]
         public string Footer { get => footer; set => footer = value; }
+
+        [Column(Name = "group_name")]
         public string Name { get => name; set => name = value; }
+
+        [Column(Name = "group_id"), PrimaryKey, Identity] 
         public string Id { get => id; set => id = value; }
 
         public int CompareTo(GroupData other)

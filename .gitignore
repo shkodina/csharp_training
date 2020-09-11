@@ -348,3 +348,4 @@ MigrationBackup/
 
 # Ionide (cross platform F# VS Code tools) working folder
 .ionide/
+/addressbook-web-tests-unit-tests/addressbook-web-tests-unit-tests/LinqToDB.Templates
