@@ -17,5 +17,27 @@ namespace addressbook_web_tests_unit_tests.model
             }
             return fromDB;
         }
+        public static List<ContactData> GetAllContacts()
+        {
+            List<ContactData> fromDB = null;
+            using (AddressBookDB db = new AddressBookDB())
+            {
+                fromDB = (from g in db.Contacts select g).ToList();
+            }
+            return fromDB;
+        }
+ 
+        public static List<ContactData> GetContactsInGroup(GroupData gr)
+        {
+            List<ContactData> fromDB = null;
+            using (AddressBookDB db = new AddressBookDB())
+            {
+                fromDB = (from c in db.Contacts 
+                          from gcr in db.GCR.Where(p => p.GroupId == gr.Id && p.ContactId == c.Id)
+                              select c).ToList();
+            }
+            return fromDB;
+        }
+ 
     }
 }

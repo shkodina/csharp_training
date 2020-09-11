@@ -5,9 +5,12 @@ using System.Text;
 using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 using addressbook_web_tests_unit_tests.utils;
+using System.Collections;
+using LinqToDB.Mapping;
 
 namespace addressbook_web_tests_unit_tests
 {
+    [Table(Name = "addressbook")]
     public class ContactData : IEquatable<ContactData>, IComparable<ContactData>
     {
         public ContactData() { }
@@ -18,19 +21,42 @@ namespace addressbook_web_tests_unit_tests
             Surname = surname;
         }
 
+        [Column(Name = "firstname")]
         public string Name { get; set; }
+
+        [Column(Name = "middlename")]
         public string MiddleName { get; set; }
+
+        [Column(Name = "lastname")]
         public string Surname { get; set; }
+
+        [Column(Name = "id"), PrimaryKey]
         public string Id { get; set; }
+
+        [Column(Name = "address")]
         public string Address { get; set; }
+
+        [Column(Name = "mobile")]
         public string MobiPhone { get; set; }
+
+        [Column(Name = "home")]
         public string HomePhone { get; set; }
+
+        [Column(Name = "work")]
         public string WorkPhone { get; set; }
+
+        [Column(Name = "fax")]
         public string Fax { get; set; }
 
+        [Column(Name = "email")]
         public string EMail { get; set; }
+
+        [Column(Name = "email2")]
         public string EMail2 { get; set; }
+
+        [Column(Name = "email3")]
         public string EMail3 { get; set; }
+
 
         private string allPhones;
         public string AllPhones {

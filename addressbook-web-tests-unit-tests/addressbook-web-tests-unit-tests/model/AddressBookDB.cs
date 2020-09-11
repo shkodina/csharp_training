@@ -13,5 +13,6 @@ namespace addressbook_web_tests_unit_tests.model
 
         public ITable<GroupData> Groups { get { return GetTable<GroupData>(); } }
         public ITable<ContactData> Contacts { get { return GetTable<ContactData>(); } }
+        public ITable<GroupContactRelationData> GCR { get { return GetTable<GroupContactRelationData>(); } }
     }
 }

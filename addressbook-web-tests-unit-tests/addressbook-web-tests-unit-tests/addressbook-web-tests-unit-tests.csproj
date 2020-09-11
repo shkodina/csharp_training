@@ -126,6 +126,7 @@
     <Compile Include="manager\MContactsHelper.cs" />
     <Compile Include="manager\MGroupsHelper.cs" />
     <Compile Include="manager\MLoginHelper.cs" />
+    <Compile Include="model\GroupContactRelationData.cs" />
     <Compile Include="tests\BaseTests.cs" />
     <Compile Include="tests\BaseTestsAuth.cs" />
     <Compile Include="tests\ContactsTests.cs" />
