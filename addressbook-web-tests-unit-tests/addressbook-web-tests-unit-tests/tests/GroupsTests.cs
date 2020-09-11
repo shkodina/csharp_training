@@ -72,7 +72,7 @@ namespace addressbook_web_tests_unit_tests
                 );
         }
        */
-        public static IEnumerable<GroupData> RandomGroupProvider(int count = 5)
+        public static IEnumerable<GroupData> RandomGroupProvider(int count = 100)
         {
             List<GroupData> groups = new List<GroupData>();
 
@@ -90,7 +90,7 @@ namespace addressbook_web_tests_unit_tests
 
         public static IEnumerable<GroupData> GroupsCreator()
         {
-            //return RandomGroupProvider();
+            return RandomGroupProvider(30);
             //return GroupDataFromCSVFile();
             //return GroupDataFromExcelFile();
 
@@ -98,7 +98,7 @@ namespace addressbook_web_tests_unit_tests
             //return ReadDataFromXMLFile<GroupData>("groups.xml");
 
             //return GroupDataFromJSONFile();
-            return ReadDataFromJSONFile<GroupData>("groups.json");
+            //return ReadDataFromJSONFile<GroupData>("groups.json");
         }
 
         [Test, TestCaseSource("GroupsCreator")]
@@ -135,16 +135,18 @@ namespace addressbook_web_tests_unit_tests
             if (!app.mGroupsHelper.IsGroupExists())
                 GroupCreationTest(GroupsCreator().ElementAt(0));
 
-            List<GroupData> oldGroups = app.mGroupsHelper.GetGroupsList();
+            //List<GroupData> oldGroups = app.mGroupsHelper.GetGroupsList();
+            List<GroupData> oldGroups = AddressBookDBHelper.GetAllGroups();
+
+            GroupData removedGroup = oldGroups[index_of_changed_group];
+
+            oldGroups.RemoveAt(index_of_changed_group);
 
             app.mGroupsHelper
                 .GoToGroups()
-                .SelectGroup(index_of_changed_group)
+                .SelectGroup(removedGroup.Id)
                 .SubmitDeleteGroup()
                 .GoToGroups();
-
-            GroupData removedGroup = oldGroups[index_of_changed_group];
-            oldGroups.RemoveAt(index_of_changed_group);
 
             Assert.AreEqual(oldGroups.Count, app.mGroupsHelper.GetGroupsCount());
 
@@ -213,15 +215,13 @@ namespace addressbook_web_tests_unit_tests
             
             System.Console.Out.WriteLine(end.Subtract(start));
 
-            AddressBookDB db = new AddressBookDB();
-
             start = DateTime.Now;
-            List<GroupData> fromDB = (from g in db.Groups select g).ToList();
+            List<GroupData> fromDB = AddressBookDBHelper.GetAllGroups();
             end = DateTime.Now;
 
-            db.Close();
-
             System.Console.Out.WriteLine(end.Subtract(start));
+
+            System.Console.Out.WriteLine("Groups count = " + fromUI.Count);
         }
     }
 }

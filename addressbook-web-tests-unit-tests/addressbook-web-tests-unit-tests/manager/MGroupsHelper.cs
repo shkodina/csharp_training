@@ -82,6 +82,11 @@ namespace addressbook_web_tests_unit_tests
             driver.FindElement(By.XPath("(//input[@name='selected[]'])[" + (v + 1) + "]")).Click();
             return this;
         }
+        public MGroupsHelper SelectGroup(string id)
+        {
+            driver.FindElement(By.XPath("(//input[@name='selected[]' and @value='" + id + "'])")).Click();
+            return this;
+        }
 
         public MGroupsHelper SubmitEditGroup()
         {

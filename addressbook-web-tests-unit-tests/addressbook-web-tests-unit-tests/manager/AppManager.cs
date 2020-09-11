@@ -24,7 +24,9 @@ namespace addressbook_web_tests_unit_tests
 
         private AppManager()
         {
-            driver = new ChromeDriver();
+            ChromeOptions chromeOptions = new ChromeOptions();
+            chromeOptions.BinaryLocation = @"C:\Program Files\Google\Chrome\Application\chrome.exe";
+            driver = new ChromeDriver(chromeOptions);
 
             mLoginHelper = new MLoginHelper(driver, this);
             mGroupsHelper = new MGroupsHelper(driver, this);

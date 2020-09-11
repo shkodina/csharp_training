@@ -11,3 +11,11 @@ nunit3-console addressbook-web-tests-unit-tests.dll
 если где нужно прописать полные пути....
 
 как стартовать отдельные тесты я хз пока...
+
+
+-------------------------------
+
+Install-Package NUnit -Version 3.12.0
+Install-Package linq2db.MySql
+Install-Package Selenium.WebDriver.ChromeDriver -Version 85.0.4183.8700
+
