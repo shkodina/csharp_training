@@ -190,6 +190,11 @@ namespace addressbook_web_tests_unit_tests
             new SelectElement(driver.FindElement(By.Name("group"))).SelectByText("[all]");
             return this;
         }
+        public MContactsHelper SelectGroupFilter(string groupName)
+        {
+            new SelectElement(driver.FindElement(By.Name("group"))).SelectByText(groupName);
+            return this;
+        }
 
         public MContactsHelper SelectGroupToAdd(string name)
         {
@@ -200,6 +205,13 @@ namespace addressbook_web_tests_unit_tests
         public MContactsHelper CommitAddingContactToGroup()
         {
             driver.FindElement(By.Name("add")).Click();
+            new WebDriverWait(driver, TimeSpan.FromSeconds(10))
+                .Until(drv => drv.FindElements(By.CssSelector("div.msgbox")).Count > 0);
+            return this;
+        }
+        public MContactsHelper CommitRemoveContactFromGroup()
+        {
+            driver.FindElement(By.Name("remove")).Click();
             new WebDriverWait(driver, TimeSpan.FromSeconds(10))
                 .Until(drv => drv.FindElements(By.CssSelector("div.msgbox")).Count > 0);
             return this;

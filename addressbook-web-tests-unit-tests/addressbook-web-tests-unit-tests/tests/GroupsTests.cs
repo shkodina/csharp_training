@@ -236,6 +236,57 @@ namespace addressbook_web_tests_unit_tests
         }
 
         [Test]
+        public void TestRemovalContactFromGroup()
+        {
+            // получить список групп (из БД)
+            // найти группу где есть хоть один контакт (из БД)
+            // открыть контакты и выбрать эту группу в фильтре
+            // выбрать контакт в списке и удалить его
+            // получить новый список контактов в выбранно группе
+            // удалить удаленный контакт из первого списка и сравнить
+
+
+            GroupData victumGroup = null;
+            List<ContactData> oldList = null;
+
+            foreach (GroupData gr in AddressBookDBHelper.GetAllGroups())
+            {
+                oldList = AddressBookDBHelper.GetContactsInGroup(gr);
+                if (oldList.Count > 0)
+                {
+                    victumGroup = gr;
+                    break;
+                }
+                    
+            }
+
+            if (victumGroup == null)
+            {
+                // All groups are empty
+                Assert.Warn("All groups are empty");
+                return;
+            }
+            
+            ContactData cd = oldList.First();
+
+            //Some Actions
+
+            app.mContactsHelper.GoToContacts()
+                                .SelectGroupFilter(victumGroup.Name)
+                                .SelectContact(cd.Id)
+                                .CommitRemoveContactFromGroup();
+
+
+            List<ContactData> newList = AddressBookDBHelper.GetContactsInGroup(victumGroup);
+
+            oldList.Remove(cd);
+
+            newList.Sort();
+            oldList.Sort();
+            Assert.AreEqual(oldList, newList);
+        }
+
+        [Test]
         public void TestDBConnectivity()
         {
             DateTime start = DateTime.Now;
