@@ -22,7 +22,7 @@ namespace addressbook_web_tests_unit_tests.model
             List<ContactData> fromDB = null;
             using (AddressBookDB db = new AddressBookDB())
             {
-                fromDB = (from g in db.Contacts select g).ToList();
+                fromDB = (from g in db.Contacts.Where(x => x.Deprecated == "0000-00-00 00:00:00") select g).ToList();
             }
             return fromDB;
         }
@@ -33,8 +33,8 @@ namespace addressbook_web_tests_unit_tests.model
             using (AddressBookDB db = new AddressBookDB())
             {
                 fromDB = (from c in db.Contacts 
-                          from gcr in db.GCR.Where(p => p.GroupId == gr.Id && p.ContactId == c.Id)
-                              select c).ToList();
+                          from gcr in db.GCR.Where(p => p.GroupId == gr.Id && p.ContactId == c.Id && c.Deprecated == "0000-00-00 00:00:00")
+                              select c).Distinct().ToList();
             }
             return fromDB;
         }

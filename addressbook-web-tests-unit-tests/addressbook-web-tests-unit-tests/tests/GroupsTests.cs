@@ -211,6 +211,31 @@ namespace addressbook_web_tests_unit_tests
         }
 
         [Test]
+        public void TestAddingContactToGroup()
+        {
+            GroupData gr = AddressBookDBHelper.GetAllGroups()[0];
+            List<ContactData> oldList = AddressBookDBHelper.GetContactsInGroup(gr);
+            ContactData cd = AddressBookDBHelper.GetAllContacts().Except(oldList).First();
+
+            //Some Actions
+
+            app.mContactsHelper.GoToContacts()
+                                .ClearGroupFilter()
+                                .SelectContact(cd.Id)
+                                .SelectGroupToAdd(gr.Name)
+                                .CommitAddingContactToGroup();
+
+
+            List<ContactData> newList = AddressBookDBHelper.GetContactsInGroup(gr);
+
+            oldList.Add(cd);
+
+            newList.Sort();
+            oldList.Sort();
+            Assert.AreEqual(oldList, newList);
+        }
+
+        [Test]
         public void TestDBConnectivity()
         {
             DateTime start = DateTime.Now;
@@ -224,6 +249,10 @@ namespace addressbook_web_tests_unit_tests
             end = DateTime.Now;
 
             System.Console.Out.WriteLine(end.Subtract(start));
+
+
+
+
 
             System.Console.Out.WriteLine("Groups count = " + fromUI.Count);
 

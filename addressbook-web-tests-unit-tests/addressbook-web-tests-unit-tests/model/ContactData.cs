@@ -56,6 +56,9 @@ namespace addressbook_web_tests_unit_tests
 
         [Column(Name = "email3")]
         public string EMail3 { get; set; }
+        
+        [Column(Name = "deprecated")]
+        public string Deprecated { get; set; }
 
 
         private string allPhones;

@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Text.RegularExpressions;
 using OpenQA.Selenium;
+using OpenQA.Selenium.Support.UI;
 
 namespace addressbook_web_tests_unit_tests
 {
@@ -97,6 +98,12 @@ namespace addressbook_web_tests_unit_tests
             return this;
         }
 
+        public MContactsHelper SelectContact(string id)
+        {
+            driver.FindElement(By.Id(id)).Click();
+            return this;
+        }
+
         private List<ContactData> contactsListHash = null;
 
  
@@ -176,6 +183,26 @@ namespace addressbook_web_tests_unit_tests
             return Int32.Parse(m.Value);
             */
             return Int32.Parse(driver.FindElement(By.TagName("label")).FindElement(By.TagName("span")).Text);
+        }
+
+        public MContactsHelper ClearGroupFilter()
+        {
+            new SelectElement(driver.FindElement(By.Name("group"))).SelectByText("[all]");
+            return this;
+        }
+
+        public MContactsHelper SelectGroupToAdd(string name)
+        {
+            new SelectElement(driver.FindElement(By.Name("to_group"))).SelectByText(name);
+            return this;
+        }
+
+        public MContactsHelper CommitAddingContactToGroup()
+        {
+            driver.FindElement(By.Name("add")).Click();
+            new WebDriverWait(driver, TimeSpan.FromSeconds(10))
+                .Until(drv => drv.FindElements(By.CssSelector("div.msgbox")).Count > 0);
+            return this;
         }
     }
 }
