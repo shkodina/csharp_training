@@ -226,6 +226,15 @@ namespace addressbook_web_tests_unit_tests
             System.Console.Out.WriteLine(end.Subtract(start));
 
             System.Console.Out.WriteLine("Groups count = " + fromUI.Count);
+
+            foreach (GroupData gr in fromDB)
+            {
+                System.Console.Out.WriteLine("For Group: " + gr.Name);
+                foreach ( ContactData cd in AddressBookDBHelper.GetContactsInGroup(gr))
+                {
+                    System.Console.Out.WriteLine("Contact:: " + cd.Name);
+                }
+            }
         }
     }
 }
