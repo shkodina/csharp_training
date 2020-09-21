@@ -129,6 +129,7 @@
     <Compile Include="model\GroupContactRelationData.cs" />
     <Compile Include="tests\BaseTests.cs" />
     <Compile Include="tests\BaseTestsAuth.cs" />
+    <Compile Include="tests\ContactsBaseTests.cs" />
     <Compile Include="tests\ContactsTests.cs" />
     <Compile Include="model\ContactData.cs" />
     <Compile Include="model\GroupData.cs" />

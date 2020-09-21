@@ -4,6 +4,7 @@ using System.IO;
 using System;
 using System.Linq;
 using addressbook_web_tests_unit_tests.utils;
+using addressbook_web_tests_unit_tests.model;
 
 namespace addressbook_web_tests_unit_tests
 {
@@ -57,14 +58,13 @@ namespace addressbook_web_tests_unit_tests
             //return ContactDataFromJSONFile();
             return ReadDataFromJSONFile<ContactData>("contacts.json");
 
-
         }
 
         [Test,TestCaseSource("ContactProvider")]
         public void ContactCreationTest(ContactData cd)
         {
-            List<ContactData> oldList = app.mContactsHelper.GoToContacts().GetContactsList();
-
+            List<ContactData> oldList = AddressBookDBHelper.GetAllContacts();//app.mContactsHelper.GoToContacts().GetContactsList();
+            
             app.mContactsHelper
                 .GoToContacts()
                 .InitCreationNewContact()
@@ -74,7 +74,7 @@ namespace addressbook_web_tests_unit_tests
 
             oldList.Add(cd);
 
-            List<ContactData> newList = app.mContactsHelper.GoToContacts().GetContactsList();
+            List<ContactData> newList = AddressBookDBHelper.GetAllContacts();//app.mContactsHelper.GoToContacts().GetContactsList();
 
             oldList.Sort();
             newList.Sort();
@@ -108,7 +108,7 @@ namespace addressbook_web_tests_unit_tests
             if (!app.mContactsHelper.IsContactExist())
                 ContactCreationTest(ContactProvider().GetEnumerator().Current);
 
-            List<ContactData> oldList = app.mContactsHelper.GoToContacts().GetContactsList();
+            List<ContactData> oldList = AddressBookDBHelper.GetAllContacts();//app.mContactsHelper.GoToContacts().GetContactsList();
 
             int index_for_remove = 0;
 
@@ -120,7 +120,7 @@ namespace addressbook_web_tests_unit_tests
 
             oldList.RemoveAt(index_for_remove);
 
-            List<ContactData> newList = app.mContactsHelper.GoToContacts().GetContactsList();
+            List<ContactData> newList = AddressBookDBHelper.GetAllContacts();//app.mContactsHelper.GoToContacts().GetContactsList();
 
             oldList.Sort();
             newList.Sort();
