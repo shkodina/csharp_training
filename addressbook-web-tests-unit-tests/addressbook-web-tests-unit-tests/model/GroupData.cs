@@ -15,6 +15,7 @@ namespace addressbook_web_tests_unit_tests
         private string header = null;
         private string footer = null;
         private string id = null;
+        private string deprecated = null;
 
         public GroupData()
         {
@@ -33,6 +34,10 @@ namespace addressbook_web_tests_unit_tests
 
         [Column(Name = "group_name")]
         public string Name { get => name; set => name = value; }
+        
+
+        [Column(Name = "deprecated")]
+        public string Deprecated { get => deprecated; set => deprecated = value; }
 
         [Column(Name = "group_id"), PrimaryKey, Identity] 
         public string Id { get => id; set => id = value; }

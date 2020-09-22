@@ -22,7 +22,7 @@ namespace addressbook_web_tests_unit_tests
     [TestFixture]
     public class BaseTests
     {
-        static public bool PERFORM_LONG_UI_CHECKS = true;
+        static public bool PERFORM_LONG_UI_CHECKS = false;
 
         protected AppManager app;
 

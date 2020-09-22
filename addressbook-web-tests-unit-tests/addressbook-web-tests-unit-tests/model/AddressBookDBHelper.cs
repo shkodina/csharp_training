@@ -33,11 +33,22 @@ namespace addressbook_web_tests_unit_tests.model
             using (AddressBookDB db = new AddressBookDB())
             {
                 fromDB = (from c in db.Contacts 
-                          from gcr in db.GCR.Where(p => p.GroupId == gr.Id && p.ContactId == c.Id && c.Deprecated == "0000-00-00 00:00:00")
+                          from gcr in db.GCR.Where(x => x.GroupId == gr.Id && x.ContactId == c.Id)
                               select c).Distinct().ToList();
             }
             return fromDB;
         }
- 
+
+        public static List<GroupData> GetGroupsByContact(ContactData cd)
+        {
+            List<GroupData> fromDB = null;
+            using (AddressBookDB db = new AddressBookDB())
+            {
+                fromDB = (from gr in db.Groups
+                          from gcr in db.GCR.Where(x => x.GroupId == gr.Id && x.ContactId == cd.Id)
+                          select gr).Distinct().ToList();
+            }
+            return fromDB;
+        }
     }
 }

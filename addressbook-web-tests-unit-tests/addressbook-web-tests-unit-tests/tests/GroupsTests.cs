@@ -90,7 +90,7 @@ namespace addressbook_web_tests_unit_tests
 
         public static IEnumerable<GroupData> GroupsCreator()
         {
-            return RandomGroupProvider(5);
+            //return RandomGroupProvider(5);
             //return GroupDataFromCSVFile();
             //return GroupDataFromExcelFile();
 
@@ -98,7 +98,7 @@ namespace addressbook_web_tests_unit_tests
             //return ReadDataFromXMLFile<GroupData>("groups.xml");
 
             //return GroupDataFromJSONFile();
-            //return ReadDataFromJSONFile<GroupData>("groups.json");
+            return ReadDataFromJSONFile<GroupData>("groups.json");
         }
 
         [Test, TestCaseSource("GroupsCreator")]
@@ -213,18 +213,72 @@ namespace addressbook_web_tests_unit_tests
         [Test]
         public void TestAddingContactToGroup()
         {
-            GroupData gr = AddressBookDBHelper.GetAllGroups()[0];
-            List<ContactData> oldList = AddressBookDBHelper.GetContactsInGroup(gr);
-            ContactData cd = AddressBookDBHelper.GetAllContacts().Except(oldList).First();
+            List<GroupData> grList = AddressBookDBHelper.GetAllGroups();
+            List<ContactData> cdList = AddressBookDBHelper.GetAllContacts();
 
-            //Some Actions
+            if(cdList.Count == 0)
+            {
+                new ContactsTests().ContactCreationTest(ContactsTests.ContactProvider().GetEnumerator().Current);
+                cdList = AddressBookDBHelper.GetAllContacts();
+            }
+
+            if (grList.Count == 0)
+            {
+                GroupCreationTest(GroupsCreator().ElementAt(0));
+                grList = AddressBookDBHelper.GetAllGroups();
+            }
+
+            // найдем контакт, который НЕ во всех группах
+            foreach(ContactData cd in cdList)
+            {
+                List<GroupData> cdGroups = AddressBookDBHelper.GetGroupsByContact(cd);
+
+                if (cdGroups.Count != grList.Count) // где то есть группа БЕЗ этого контакта
+                {
+                    GroupData gr = null;
+                    if (cdGroups.Count == 0) // контакта нет ни в одной группе
+                    {
+                        gr = grList[0];                     
+                    }
+                    else
+                    {
+                        gr = grList.Except(cdGroups).First();
+                    }
+
+                    TestAddingContactToGroupActionPart(gr, cd);
+                    return;
+
+                }
+
+                /*
+                foreach (GroupData gr in cdGroups)
+                {
+                    System.Console.Out.WriteLine(string.Format("For contact : {0} -> group: {1}", cd.Name, gr.Name));
+                }
+                */
+            }
+
+            // если мы тут, значит все контакты во всех группах
+            // можно создать контакт и впихнуть в любую группу, или создать новую группу и взять любой контакт
+            // ну а раз тест в классе групп, то создадим группу и впихнем в нее первый контакт
+
+             
+            GroupCreationTest(GroupsCreator().ElementAt(0));
+            TestAddingContactToGroupActionPart(
+                AddressBookDBHelper.GetAllGroups().Except(AddressBookDBHelper.GetGroupsByContact(cdList[0])).First(), 
+                cdList[0]);
+
+        }
+
+        private void TestAddingContactToGroupActionPart(GroupData gr, ContactData cd)
+        {
+            List<ContactData> oldList = AddressBookDBHelper.GetContactsInGroup(gr);
 
             app.mContactsHelper.GoToContacts()
-                                .ClearGroupFilter()
-                                .SelectContact(cd.Id)
-                                .SelectGroupToAdd(gr.Name)
-                                .CommitAddingContactToGroup();
-
+                        .ClearGroupFilter()
+                        .SelectContact(cd.Id)
+                        .SelectGroupToAdd(gr.Name)
+                        .CommitAddingContactToGroup();
 
             List<ContactData> newList = AddressBookDBHelper.GetContactsInGroup(gr);
 
@@ -232,6 +286,7 @@ namespace addressbook_web_tests_unit_tests
 
             newList.Sort();
             oldList.Sort();
+
             Assert.AreEqual(oldList, newList);
         }
 
