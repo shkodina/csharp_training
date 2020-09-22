@@ -300,8 +300,24 @@ namespace addressbook_web_tests_unit_tests
             // получить новый список контактов в выбранно группе
             // удалить удаленный контакт из первого списка и сравнить
 
+            List<GroupData> grList = AddressBookDBHelper.GetAllGroups();
+            List<ContactData> cdList = AddressBookDBHelper.GetAllContacts();
 
+            if (cdList.Count == 0)
+            {
+                new ContactsTests().ContactCreationTest(ContactsTests.ContactProvider().GetEnumerator().Current);
+                cdList = AddressBookDBHelper.GetAllContacts();
+            }
+
+            if (grList.Count == 0)
+            {
+                GroupCreationTest(GroupsCreator().ElementAt(0));
+                grList = AddressBookDBHelper.GetAllGroups();
+            }
+
+            ContactData victumContact = null;
             GroupData victumGroup = null;
+
             List<ContactData> oldList = null;
 
             foreach (GroupData gr in AddressBookDBHelper.GetAllGroups())
@@ -314,32 +330,40 @@ namespace addressbook_web_tests_unit_tests
                 }
                     
             }
-
+            
             if (victumGroup == null)
             {
                 // All groups are empty
                 Assert.Warn("All groups are empty");
-                return;
+                victumGroup = AddressBookDBHelper.GetAllGroups().First();
+                victumContact = AddressBookDBHelper.GetAllContacts().First();
+                TestAddingContactToGroupActionPart(victumGroup,  victumContact);
+
+            }
+            else
+            {
+                victumContact = oldList.First();
             }
             
-            ContactData cd = oldList.First();
+           
 
-            //Some Actions
+            // а теперь сами проверки по удалению группы...
 
             app.mContactsHelper.GoToContacts()
                                 .SelectGroupFilter(victumGroup.Name)
-                                .SelectContact(cd.Id)
+                                .SelectContact(victumContact.Id)
                                 .CommitRemoveContactFromGroup();
 
 
             List<ContactData> newList = AddressBookDBHelper.GetContactsInGroup(victumGroup);
 
-            oldList.Remove(cd);
+            oldList.Remove(victumContact);
 
             newList.Sort();
             oldList.Sort();
             Assert.AreEqual(oldList, newList);
         }
+
 
         [Test]
         public void TestDBConnectivity()
