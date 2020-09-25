@@ -15,8 +15,14 @@ namespace mantis_test
         public void Rigester(AccountData acc)
         {
             OpenHomePage(BaseData.BaseURL);
+            OpenRegPage();
             FillRegForm(acc);
             SubmitReg();
+        }
+
+        private void OpenRegPage()
+        {
+            this.driver.FindElement(By.CssSelector("a.back-to-login-link.pull-left")).Click();
         }
 
         private void SubmitReg()
@@ -26,7 +32,8 @@ namespace mantis_test
 
         private void FillRegForm(AccountData acc)
         {
-            throw new NotImplementedException();
+            this.driver.FindElement(By.Name("username")).SendKeys(acc.Name);
+            this.driver.FindElement(By.Name("email")).SendKeys(acc.Email);
         }
     }
 }
