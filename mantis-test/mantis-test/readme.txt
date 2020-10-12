@@ -7,4 +7,5 @@ Install-Package Newtonsoft.Json
 добавить в ссылки system.windows.xml
 
 Install-Package System.Net.FtpClient
+Install-Package Selenium.WebDriver.ChromeDriver
 

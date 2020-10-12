@@ -1,4 +1,5 @@
 ﻿using System;
+using NUnit.Framework;
 using OpenQA.Selenium;
 
 namespace mantis_test
@@ -27,7 +28,7 @@ namespace mantis_test
 
         private void SubmitReg()
         {
-            throw new NotImplementedException();
+            this.driver.FindElement(By.XPath("//input[@type='submit']")).Click();
         }
 
         private void FillRegForm(AccountData acc)

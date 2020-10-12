@@ -24,7 +24,8 @@ namespace mantis_test
 
         private static ThreadLocal<AppManager> instance = new ThreadLocal<AppManager>();
 
-        public RegistrationHelper RegHelper { get; internal set; }
+        public RegistrationHelper RegHelper { get;  set; }
+        public FTPHelper FTPHelper { get;  set; }
 
         private AppManager()
         {
@@ -38,6 +39,9 @@ namespace mantis_test
             mContactsHelper = new MContactsHelper(driver, this);
             mNavyHelper = new MNavyHelper(driver, this);
             */
+
+            RegHelper = new RegistrationHelper(driver, this);
+            FTPHelper = new FTPHelper(driver, this);
         }
 
         public static AppManager GetInstance()
