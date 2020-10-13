@@ -13,6 +13,8 @@ namespace mantis_test
         public static string RegPage = @"/signup_page.php";
         public static string MantisConfigFileByFTP = @"/config_defaults_inc.php";
         public static string MantisConfigFileLocal = "config_defaults_inc.php";
+        public static string TelnetHost = "localhost";
+        public static int TelnetPort = 4555;
 
     }
 

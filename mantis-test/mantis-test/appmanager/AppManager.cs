@@ -26,6 +26,7 @@ namespace mantis_test
 
         public RegistrationHelper RegHelper { get;  set; }
         public FTPHelper FTPHelper { get;  set; }
+        public JamesHelper JHelper { get; set; }
 
         private AppManager()
         {
@@ -42,6 +43,7 @@ namespace mantis_test
 
             RegHelper = new RegistrationHelper(driver, this);
             FTPHelper = new FTPHelper(driver, this);
+            JHelper = new JamesHelper(driver, this);
         }
 
         public static AppManager GetInstance()
