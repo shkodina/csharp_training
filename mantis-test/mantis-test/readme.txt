@@ -9,3 +9,5 @@ Install-Package Newtonsoft.Json
 Install-Package System.Net.FtpClient
 Install-Package Selenium.WebDriver.ChromeDriver
 
+Install-Package OpaqueMail
+

@@ -1,6 +1,7 @@
 ﻿using System;
 using NUnit.Framework;
 using OpenQA.Selenium;
+using System.Text.RegularExpressions;
 
 namespace mantis_test
 {
@@ -19,6 +20,29 @@ namespace mantis_test
             OpenRegPage();
             FillRegForm(acc);
             SubmitReg();
+            String url = GetConfirmURL(acc);
+            FillPwdForm(url, acc);
+            SubmitFillPwdForm(url);
+            System.Threading.Thread.Sleep(10 * 1000);
+        }
+
+        private void FillPwdForm(string url, AccountData acc)
+        {
+            driver.Url = url;
+            this.driver.FindElement(By.CssSelector("input#realname.form-control")).SendKeys(acc.Name);
+            this.driver.FindElement(By.CssSelector("input#password.form-control")).SendKeys(acc.Password);
+            this.driver.FindElement(By.CssSelector("input#password-confirm.form-control")).SendKeys(acc.Password);
+        }
+
+        private void SubmitFillPwdForm(string url)
+        {
+            this.driver.FindElement(By.XPath("//button[@type='submit']")).Click();
+        }
+
+        private string GetConfirmURL(AccountData acc)
+        {
+            String m = this.AppManager.MHelper.GetLastMail(acc);
+            return Regex.Match(m, @"http://\S*").Value;
         }
 
         private void OpenRegPage()

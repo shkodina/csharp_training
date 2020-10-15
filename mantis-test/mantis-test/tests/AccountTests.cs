@@ -26,11 +26,12 @@ namespace mantis_test
         [Test]
         public void TestAccountCreation()
         {
+            string ss = "4";
             AccountData acc = new AccountData()
             { 
-                Name = "testuser",
-                Password = "password",
-                Email = "testuser@localhost.localdomain"
+                Name = "testuser" + ss,
+                Password = "password" + ss,
+                Email = "testuser" + ss + "@localhost.localdomain"
             };
 
             app.JHelper.Delete(acc);
