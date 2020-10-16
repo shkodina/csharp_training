@@ -1,5 +1,6 @@
 ﻿using System;
 using System.IO;
+using mantis_test;
 using NUnit.Framework;
 
 namespace mantis_test
@@ -7,6 +8,30 @@ namespace mantis_test
     [TestFixture]
     public class AccountTests : BaseTests
     {
+        [Test]
+        public void TestAPI()
+        {
+            AccountData acc = new AccountData()
+            {
+                Name = "administrator",
+                Password = "root"
+            };
+
+            IssData iss = new IssData()
+            {
+                Descr = "Piper New Description",
+                Summary = "Piper New Summuryyyyyyy",
+                Catgr = "General"
+            };
+
+            ProjData pj = new ProjData()
+            {
+                ID = "1"
+            };
+
+            app.APIHelper.CreateNewIssue(acc, iss, pj);
+        }
+
         [Test]
         public void TestSimpleBrowserLogin()
         {

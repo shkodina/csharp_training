@@ -29,6 +29,7 @@ namespace mantis_test
         public JamesHelper JHelper { get; set; }
         public MailHelper MHelper { get; set; }
         public AdminHelper AdmHelper { get; set; }
+        public APIHelper APIHelper { get; set; }
 
         private AppManager()
         {
@@ -48,6 +49,7 @@ namespace mantis_test
             JHelper = new JamesHelper(driver, this);
             MHelper = new MailHelper(driver, this);
             AdmHelper = new AdminHelper(driver, this);
+            APIHelper = new APIHelper(driver, this);
         }
 
         public static AppManager GetInstance()

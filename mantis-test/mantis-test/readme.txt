@@ -13,3 +13,6 @@ Install-Package OpaqueMail
 
 Install-Package SimpleBrowser.WebDriver
 
+-----------------------------
+
+http://localhost/mantisbt-2.24.2/api/soap/mantisconnect.php?wsdl
