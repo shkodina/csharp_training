@@ -11,3 +11,5 @@ Install-Package Selenium.WebDriver.ChromeDriver
 
 Install-Package OpaqueMail
 
+Install-Package SimpleBrowser.WebDriver
+

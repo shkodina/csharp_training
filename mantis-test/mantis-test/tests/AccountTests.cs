@@ -8,7 +8,21 @@ namespace mantis_test
     public class AccountTests : BaseTests
     {
         [Test]
-        public void xxx()
+        public void TestSimpleBrowserLogin()
+        {
+            string ss = "3";
+            AccountData acc = new AccountData()
+            {
+                Name = "testuser" + ss,
+                Password = "password" + ss,
+                Email = "testuser" + ss + "@localhost.localdomain"
+            };
+
+            app.AdmHelper.DeleteAccount(acc);
+        }
+
+        [Test]
+        public void TestJamesHelper()
         {
             AccountData acc = new AccountData()
             {
